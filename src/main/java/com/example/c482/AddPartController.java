@@ -1,6 +1,7 @@
 package com.example.c482;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -16,9 +17,9 @@ public class AddPartController  implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("I am Initialized");
+        System.out.println("Welcome to the 'Add a Part Page!'");
     }
-
+    @FXML
     public void cancelButton(ActionEvent event) throws IOException {
         Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
         Scene mainScene = new Scene(mainForm);

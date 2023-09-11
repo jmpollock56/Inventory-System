@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 public class ModifyPartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        System.out.println("Welcome to the 'Modify a Part Page!'");
     }
     public void cancelButton(ActionEvent event) throws IOException {
         Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="384.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c482.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="384.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c482.MainController">
    <children>
       <Label layoutX="33.0" layoutY="32.0" text="Inventory Management System">
          <font>
@@ -44,7 +44,7 @@
       <Button layoutX="279.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToModifyPart" text="Modify" />
       <Button layoutX="336.0" layoutY="264.0" mnemonicParsing="false" text="Delete" />
       <Button layoutX="773.0" layoutY="264.0" mnemonicParsing="false" text="Delete" />
-      <Button layoutX="712.0" layoutY="264.0" mnemonicParsing="false" text="Modify" />
-      <Button layoutX="667.0" layoutY="264.0" mnemonicParsing="false" text="Add" />
+      <Button layoutX="712.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToModifyProduct" text="Modify" />
+      <Button layoutX="667.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToAddProduct" text="Add" />
    </children>
 </AnchorPane>

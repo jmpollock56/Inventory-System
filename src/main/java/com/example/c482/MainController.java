@@ -25,10 +25,6 @@ import java.util.ResourceBundle;
 
         @FXML
         public Button closeButton;
-        @FXML
-        public Button addPart;
-        @FXML
-        public Button modifyPart;
 
         @FXML
         public void handleCloseButtonAction(ActionEvent event) {
@@ -44,7 +40,7 @@ import java.util.ResourceBundle;
             addPartStage.setScene(addPartScene);
             addPartStage.show();
         }
-
+        @FXML
         public void moveToModifyPart(ActionEvent event) throws IOException {
             Parent modifyPartForm = FXMLLoader.load(getClass().getResource("modify-part.fxml"));
             Scene modifyPartScene = new Scene(modifyPartForm);
@@ -52,6 +48,24 @@ import java.util.ResourceBundle;
 
             modifyPartStage.setScene(modifyPartScene);
             modifyPartStage.show();
+        }
+        @FXML
+        public void moveToAddProduct(ActionEvent event) throws IOException {
+            Parent addProductForm = FXMLLoader.load(getClass().getResource("add-product.fxml"));
+            Scene addProductScene = new Scene(addProductForm);
+            Stage addProductStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+
+            addProductStage.setScene(addProductScene);
+            addProductStage.show();
+        }
+        @FXML
+        public void moveToModifyProduct(ActionEvent event) throws IOException {
+            Parent modifyProductForm = FXMLLoader.load(getClass().getResource("modify-product.fxml"));
+            Scene modifyProductScene = new Scene(modifyProductForm);
+            Stage modifyProductStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+
+            modifyProductStage.setScene(modifyProductScene);
+            modifyProductStage.show();
         }
 
 
