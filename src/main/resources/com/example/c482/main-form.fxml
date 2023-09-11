@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="324.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="384.0" prefWidth="864.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c482.MainController">
    <children>
       <Label layoutX="33.0" layoutY="32.0" text="Inventory Management System">
          <font>
@@ -15,7 +15,7 @@
         <columns>
           <TableColumn prefWidth="49.0" text="Part ID" />
           <TableColumn prefWidth="79.0" text="Part Name" />
-            <TableColumn prefWidth="95.0" text="Inventory Level" />
+                <TableColumn prefWidth="95.0" text="Inventory Level" />
             <TableColumn prefWidth="121.0" text="Price/ Cost per Unit" />
         </columns>
       </TableView>
@@ -39,5 +39,12 @@
       </Label>
       <TextField layoutX="232.0" layoutY="69.0" promptText="Search by Part ID or Name" />
       <TextField layoutX="667.0" layoutY="69.0" promptText="Search by Product ID or Name" />
+      <Button fx:id="closeButton" layoutX="764.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" text="Exit" />
+      <Button fx:id="addPart" layoutX="232.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToAddPart" text="Add" />
+      <Button layoutX="279.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToModifyPart" text="Modify" />
+      <Button layoutX="336.0" layoutY="264.0" mnemonicParsing="false" text="Delete" />
+      <Button layoutX="773.0" layoutY="264.0" mnemonicParsing="false" text="Delete" />
+      <Button layoutX="712.0" layoutY="264.0" mnemonicParsing="false" text="Modify" />
+      <Button layoutX="667.0" layoutY="264.0" mnemonicParsing="false" text="Add" />
    </children>
 </AnchorPane>
