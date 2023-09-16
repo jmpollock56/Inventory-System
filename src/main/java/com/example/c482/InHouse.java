@@ -1,10 +1,10 @@
 package com.example.c482;
 
-public class InHouse {
+public class InHouse extends Part{
      private int machineId;
 
      public InHouse(int id, String name, double price, int stock, int min, int max, int machineId){
-          this.id = id;
+         this.id = id;
           this.name = name;
           this.price = price;
           this.stock = stock;

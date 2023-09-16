@@ -7,13 +7,13 @@ package com.example.c482; /**
  * @author Place Your Name Here
  */
 public abstract class Part {
-    private int id;
-    private String name;
-    private double price;
-    private int stock;
-    private int min;
-    private int max;    
-    public Part(int id, String name, double price, int stock, int min, int max) {
+     int id;
+     String name;
+     double price;
+     int stock;
+     int min;
+     int max;
+    public Part() {
         this.id = id;
         this.name = name;
         this.price = price;

@@ -3,7 +3,7 @@ package com.example.c482;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 
-public class Outsourced {
+public class Outsourced extends Part{
 
     private String companyName;
 

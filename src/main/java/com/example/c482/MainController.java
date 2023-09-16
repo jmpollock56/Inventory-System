@@ -1,5 +1,7 @@
 package com.example.c482;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +10,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,12 +21,32 @@ import java.util.ResourceBundle;
 
     public class MainController implements Initializable {
 
+        @FXML
+        public TableView<Product> tableView;
+
+        @FXML
+        private TableColumn<Product, Integer> fxPartId;
+        @FXML
+        private TableColumn<Product, String> fxPartName;
+        @FXML
+        private TableColumn<Product, Integer> fxInventory;
+        @FXML
+        private TableColumn<Product, Double> fxPriceCost;
+
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
             System.out.println("I am initialized");
         }
 
+        final ObservableList<Product> data = FXCollections.observableArrayList(
+                new Product(1, "Smith", 12.00, 5, 1, 4),
+                new Product(2, "Johnson", 12.00, 5, 1, 4),
+                new Product(3, "Williams", 12.00, 5, 1, 4),
+                new Product(4, "Jones", 12.00, 5, 1, 4));
 
+        public TableColumn<Product, Integer> getFxPartId() {
+
+        }
 
         @FXML
         public Button closeButton;

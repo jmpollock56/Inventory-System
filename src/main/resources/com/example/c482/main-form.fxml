@@ -11,12 +11,12 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TableView layoutX="41.0" layoutY="96.0" prefHeight="161.0" prefWidth="346.0">
+      <TableView fx:id="tableView" layoutX="41.0" layoutY="96.0" prefHeight="161.0" prefWidth="346.0">
         <columns>
-          <TableColumn prefWidth="49.0" text="Part ID" />
-          <TableColumn prefWidth="79.0" text="Part Name" />
-                <TableColumn prefWidth="95.0" text="Inventory Level" />
-            <TableColumn prefWidth="121.0" text="Price/ Cost per Unit" />
+          <TableColumn fx:id="fxPartId" prefWidth="49.0" text="Part ID" />
+          <TableColumn fx:id="fxPartName" prefWidth="79.0" text="Part Name" />
+            <TableColumn fx:id="fxInventory" prefWidth="95.0" text="Inventory Level" />
+            <TableColumn fx:id="fxPriceCost" prefWidth="121.0" text="Price/ Cost per Unit" />
         </columns>
       </TableView>
       <TableView layoutX="477.0" layoutY="96.0" prefHeight="161.0" prefWidth="346.0">

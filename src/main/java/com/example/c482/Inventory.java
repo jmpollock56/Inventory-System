@@ -15,10 +15,11 @@ public class Inventory {
 
     }
 
-    public static Part lookupPart(int partId){
-
+    public static int lookupPart(int partId){
+        return partId;
     }
 
+    /**
     public static Product lookupProduct(int productId){
 
     }
@@ -54,4 +55,5 @@ public class Inventory {
     public static ObservableList<Product> getAllProducts(){
 
     }
+     */
 }

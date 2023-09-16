@@ -51,10 +51,11 @@ public class Product {
     public void addAssociatedPart(Part part){
 
     }
-
+/**
     public boolean deleteAssociatedPart(Part selectedAssociatedPart){
 
     }
+ */
 
     public ObservableList<Part> getAssociatedParts() {
         return associatedParts;
