@@ -11,20 +11,20 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TableView fx:id="tableView" layoutX="41.0" layoutY="96.0" prefHeight="161.0" prefWidth="346.0">
+      <TableView fx:id="partsTable" layoutX="41.0" layoutY="96.0" prefHeight="161.0" prefWidth="346.0">
         <columns>
-          <TableColumn fx:id="fxPartId" prefWidth="49.0" text="Part ID" />
-          <TableColumn fx:id="fxPartName" prefWidth="79.0" text="Part Name" />
-            <TableColumn fx:id="fxInventory" prefWidth="95.0" text="Inventory Level" />
-            <TableColumn fx:id="fxPriceCost" prefWidth="121.0" text="Price/ Cost per Unit" />
+          <TableColumn fx:id="partIdCol" prefWidth="49.0" text="Part ID" />
+          <TableColumn fx:id="partNameCol" prefWidth="79.0" text="Part Name" />
+            <TableColumn fx:id="partInventoryCol" prefWidth="95.0" text="Inventory Level" />
+            <TableColumn fx:id="priceCostCol" prefWidth="121.0" text="Price/ Cost per Unit" />
         </columns>
       </TableView>
-      <TableView layoutX="477.0" layoutY="96.0" prefHeight="161.0" prefWidth="346.0">
+      <TableView fx:id="productTable" layoutX="477.0" layoutY="96.0" prefHeight="161.0" prefWidth="346.0">
         <columns>
-          <TableColumn prefWidth="74.0" text="Product ID" />
-          <TableColumn prefWidth="88.0" text="Product Name" />
-            <TableColumn prefWidth="93.0" text="Inventory Level" />
-            <TableColumn prefWidth="90.0" text="Price/ Cost per Unit" />
+          <TableColumn fx:id="productIdCol" prefWidth="65.0" text="Product ID" />
+          <TableColumn fx:id="productNameCol" prefWidth="97.0" text="Product Name" />
+            <TableColumn fx:id="productInventoryCol" prefWidth="90.0" text="Inventory Level" />
+            <TableColumn fx:id="productCostCol" prefWidth="93.0" text="Price/ Cost per Unit" />
         </columns>
       </TableView>
       <Label layoutX="41.0" layoutY="81.0" text="Parts">
@@ -37,13 +37,13 @@
             <Font name="System Bold" size="10.0" />
          </font>
       </Label>
-      <TextField layoutX="232.0" layoutY="69.0" promptText="Search by Part ID or Name" />
-      <TextField layoutX="667.0" layoutY="69.0" promptText="Search by Product ID or Name" />
+      <TextField fx:id="partSearch" layoutX="232.0" layoutY="69.0" onAction="#showPartResults" promptText="Search by Part ID or Name" />
+      <TextField fx:id="productSearch" layoutX="667.0" layoutY="69.0" onAction="#showProductResults" promptText="Search by Product ID or Name" />
       <Button fx:id="closeButton" layoutX="764.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" text="Exit" />
-      <Button fx:id="addPart" layoutX="232.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToAddPart" text="Add" />
+      <Button layoutX="232.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToAddPart" text="Add" />
       <Button layoutX="279.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToModifyPart" text="Modify" />
-      <Button layoutX="336.0" layoutY="264.0" mnemonicParsing="false" text="Delete" />
-      <Button layoutX="773.0" layoutY="264.0" mnemonicParsing="false" text="Delete" />
+      <Button layoutX="336.0" layoutY="264.0" mnemonicParsing="false" onAction="#deletePart" text="Delete" />
+      <Button layoutX="773.0" layoutY="264.0" mnemonicParsing="false" onAction="#deleteProductBtn" text="Delete" />
       <Button layoutX="712.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToModifyProduct" text="Modify" />
       <Button layoutX="667.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToAddProduct" text="Add" />
    </children>

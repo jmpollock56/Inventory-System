@@ -12,8 +12,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,32 +23,52 @@ import java.util.ResourceBundle;
 
     public class MainController implements Initializable {
 
-        @FXML
-        public TableView<Product> tableView;
 
-        @FXML
-        private TableColumn<Product, Integer> fxPartId;
-        @FXML
-        private TableColumn<Product, String> fxPartName;
-        @FXML
-        private TableColumn<Product, Integer> fxInventory;
-        @FXML
-        private TableColumn<Product, Double> fxPriceCost;
+        @FXML public TableView partsTable;
+        public TableColumn partIdCol;
+        public TableColumn partNameCol;
+        public TableColumn partInventoryCol;
+        public TableColumn priceCostCol;
+        public TableColumn productIdCol;
+        public TableColumn productNameCol;
+        public TableColumn productInventoryCol;
+        public TableColumn productCostCol;
+        public TableView productTable;
+        public TextField partSearch;
+        public TextField productSearch;
+
 
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
+
+            Inventory.addProduct(new Product(1, "Big Bike", 10.99, 200, 1, 45));
+            Inventory.addProduct(new Product(2, "Little Trike", 12.99, 100, 1, 15));
+            Inventory.addProduct(new Product(3, "Motorcycle", 15.99, 200, 1, 50));
+
+
+            productTable.setItems(Inventory.getAllProducts());
+
+            productIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+            productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+            productInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            productCostCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+            Inventory.addPart(new InHouse(1, "Chain", 10.99, 100, 1, 24, 11111));
+            Inventory.addPart(new InHouse(2, "Wheel", 5.99, 10, 1, 20, 11211));
+            Inventory.addPart(new InHouse(3, "Sprocket", 8.99, 200, 1, 50, 11211));
+
+
+            partsTable.setItems(Inventory.getAllParts());
+
+            partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+            partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+            partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            priceCostCol.setCellValueFactory(new PropertyValueFactory<>("price"));
             System.out.println("I am initialized");
         }
 
-        final ObservableList<Product> data = FXCollections.observableArrayList(
-                new Product(1, "Smith", 12.00, 5, 1, 4),
-                new Product(2, "Johnson", 12.00, 5, 1, 4),
-                new Product(3, "Williams", 12.00, 5, 1, 4),
-                new Product(4, "Jones", 12.00, 5, 1, 4));
 
-        public TableColumn<Product, Integer> getFxPartId() {
 
-        }
 
         @FXML
         public Button closeButton;
@@ -94,7 +116,63 @@ import java.util.ResourceBundle;
         }
 
 
-    }
+        public void deletePart(ActionEvent actionEvent) {
+            Part selectedItem = (Part) partsTable.getSelectionModel().getSelectedItem();
+            partsTable.getItems().remove(selectedItem);
+        }
+
+        public void deleteProductBtn(ActionEvent actionEvent) {
+            Product selectedItem = (Product) productTable.getSelectionModel().getSelectedItem();
+            productTable.getItems().remove(selectedItem);
+        }
+        @FXML
+        public void showPartResults(ActionEvent actionEvent) {
+            String q = partSearch.getText();
+
+            ObservableList<Part> parts = Inventory.lookupPart(q);
+
+            if(parts.size() == 0){
+                try {
+                    int partId = Integer.parseInt(q);
+                    Part numPart = (Part) Inventory.lookupPart(partId);
+                    if(numPart != null){
+                        parts.add(numPart);
+                    }
+                }
+                catch (NumberFormatException e){
+                    //ignore
+                }
+         }
+            partsTable.setItems(parts);
+
+
+
+        }
+
+        public void showProductResults(ActionEvent actionEvent) {
+            String p = productSearch.getText();
+
+            ObservableList<Product> products = Inventory.lookupProduct(p);
+
+            if(products.size() == 0){
+                try {
+                    int productId = Integer.parseInt(p);
+                    Product numProduct = (Product) Inventory.lookupProduct(productId);
+                    if(numProduct != null){
+                        products.add(numProduct);
+                    }
+                }
+                catch (NumberFormatException e){
+                    //ignore
+                }
+            }
+            productTable.setItems(products);
+
+
+
+        }
+        }
+
 
 
 

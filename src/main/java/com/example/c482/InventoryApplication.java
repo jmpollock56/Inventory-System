@@ -3,6 +3,9 @@ package com.example.c482;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.ToolBar;
 import javafx.stage.Stage;
 
 
