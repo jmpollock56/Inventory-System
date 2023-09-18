@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
@@ -22,6 +23,13 @@ public class AddPartController  implements Initializable {
     public RadioButton inHouseRadio;
     public RadioButton outsourcedRadio;
     public Label changeText;
+    public TextField partId;
+    public TextField partName;
+    public TextField partInv;
+    public TextField partCost;
+    public TextField partMax;
+    public TextField partMin;
+    public TextField partSwitch;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,3 +54,5 @@ public class AddPartController  implements Initializable {
         changeText.setText("Company Name");
     }
 }
+
+

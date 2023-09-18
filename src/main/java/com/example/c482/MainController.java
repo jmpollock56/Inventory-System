@@ -9,33 +9,31 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
     public class MainController implements Initializable {
 
 
         @FXML public TableView partsTable;
-        public TableColumn partIdCol;
-        public TableColumn partNameCol;
-        public TableColumn partInventoryCol;
-        public TableColumn priceCostCol;
-        public TableColumn productIdCol;
-        public TableColumn productNameCol;
-        public TableColumn productInventoryCol;
-        public TableColumn productCostCol;
-        public TableView productTable;
-        public TextField partSearch;
-        public TextField productSearch;
+        @FXML public TableColumn partIdCol;
+        @FXML public TableColumn partNameCol;
+        @FXML public TableColumn partInventoryCol;
+        @FXML public TableColumn priceCostCol;
+        @FXML public TableColumn productIdCol;
+        @FXML public TableColumn productNameCol;
+        @FXML public TableColumn productInventoryCol;
+        @FXML public TableColumn productCostCol;
+        @FXML public TableView productTable;
+        @FXML public TextField partSearch;
+        @FXML public TextField productSearch;
 
 
         @Override
@@ -118,11 +116,43 @@ import java.util.ResourceBundle;
 
         public void deletePart(ActionEvent actionEvent) {
             Part selectedItem = (Part) partsTable.getSelectionModel().getSelectedItem();
-            partsTable.getItems().remove(selectedItem);
+
+
+            Alert alert =  new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Deletion of Part");
+            alert.setHeaderText("Confirm");
+            alert.setContentText("Are you sure that you want to delete " + selectedItem.getName() + "?");
+
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if(result.isPresent() && result.get() == ButtonType.YES){
+                partsTable.getItems().remove(selectedItem);
+            } else {
+                System.out.println("Canceled");
+            }
+
         }
 
         public void deleteProductBtn(ActionEvent actionEvent) {
+
             Product selectedItem = (Product) productTable.getSelectionModel().getSelectedItem();
+
+            Alert alert =  new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Deletion of Part");
+            alert.setHeaderText("Confirm");
+            alert.setContentText("Are you sure that you want to delete " + selectedItem.getName() + "?");
+
+            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if(result.isPresent() && result.get() == ButtonType.YES){
+                partsTable.getItems().remove(selectedItem);
+            } else {
+                System.out.println("Canceled");
+            }
             productTable.getItems().remove(selectedItem);
         }
         @FXML
