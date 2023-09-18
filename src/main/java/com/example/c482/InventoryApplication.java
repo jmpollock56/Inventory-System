@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 
@@ -18,6 +19,8 @@ public class InventoryApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+
 
 
     public static void main(String[] args) {
