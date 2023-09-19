@@ -50,11 +50,43 @@ import java.util.ResourceBundle;
 
         private static boolean firstTime = true;
 
+        private void populateTables() {
+            if(!firstTime){
+                return;
+            }
+            firstTime = false;
+
+
+            Inventory.addProduct(new Product(1, "Big Bike", 10.99, 200, 1, 45));
+            Inventory.addProduct(new Product(2, "Little Trike", 12.99, 100, 1, 15));
+            Inventory.addProduct(new Product(3, "Motorcycle", 15.99, 200, 1, 50));
+
+
+
+            Inventory.addPart(new InHouse(1, "Chain", 10.99, 100, 1, 24, 11111));
+            Inventory.addPart(new InHouse(2, "Wheel", 5.99, 10, 1, 20, 11211));
+            Inventory.addPart(new InHouse(3, "Sprocket", 8.99, 200, 1, 50, 11211));
+
+
+        }
+
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
-
             populateTables();
 
+            productTable.setItems(Inventory.getAllProducts());
+
+            productIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+            productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+            productInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            productCostCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+            partsTable.setItems(Inventory.getAllParts());
+
+            partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+            partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+            partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            priceCostCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         }
 
         @FXML
@@ -190,36 +222,7 @@ import java.util.ResourceBundle;
         }
 
 
-        private void populateTables() {
-            if (!firstTime){
-                return;
-            }
-            firstTime = false;
 
-                Inventory.addProduct(new Product(1, "Big Bike", 10.99, 200, 1, 45));
-                Inventory.addProduct(new Product(2, "Little Trike", 12.99, 100, 1, 15));
-                Inventory.addProduct(new Product(3, "Motorcycle", 15.99, 200, 1, 50));
-
-                productTable.setItems(Inventory.getAllProducts());
-
-                productIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-                productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-                productInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
-                productCostCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-                Inventory.addPart(new InHouse(1, "Chain", 10.99, 100, 1, 24, 11111));
-                Inventory.addPart(new InHouse(2, "Wheel", 5.99, 10, 1, 20, 11211));
-                Inventory.addPart(new InHouse(3, "Sprocket", 8.99, 200, 1, 50, 11211));
-
-                partsTable.setItems(Inventory.getAllParts());
-
-                partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-                partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-                partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
-                priceCostCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-
-        }
 
     }
 

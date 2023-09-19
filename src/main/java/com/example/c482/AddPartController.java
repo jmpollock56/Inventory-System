@@ -15,21 +15,25 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class AddPartController  implements Initializable {
 
 
-    public RadioButton inHouseRadio;
-    public RadioButton outsourcedRadio;
-    public Label changeText;
-    public TextField partId;
-    public TextField partName;
-    public TextField partInv;
-    public TextField partCost;
-    public TextField partMax;
-    public TextField partMin;
-    public TextField partSwitch;
+   @FXML public RadioButton inHouseRadio;
+    @FXML public RadioButton outsourcedRadio;
+    @FXML public Label changeText;
+    @FXML public TextField partId;
+    @FXML public TextField partName;
+    @FXML public TextField partInv;
+    @FXML public TextField partCost;
+    @FXML public TextField partMax;
+    @FXML public TextField partMin;
+    @FXML public TextField partSwitch;
+    int generatedPartId;
+    int generatedProductId;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,6 +56,26 @@ public class AddPartController  implements Initializable {
 
     public void outsourcedRadioClick(ActionEvent actionEvent) {
         changeText.setText("Company Name");
+    }
+
+
+    public void savePart(ActionEvent actionEvent) {
+
+        Random random = new Random();
+
+        int randomId = random.nextInt(9000) + 1000;
+        if (inHouseRadio.isSelected()){
+            String partNameVal = partName.getText();
+            int partInvVal = Integer.parseInt(partInv.getText());
+            int partCostVal = Integer.parseInt(partCost.getText());
+            int partMaxVal = Integer.parseInt(partMax.getText());
+            int partMinVal = Integer.parseInt(partMin.getText());
+            int partMachineId = Integer.parseInt(partSwitch.getText());
+
+            Inventory.addPart(new InHouse(1, "name", 1,1,1,1,1));
+        } else if (outsourcedRadio.isSelected()) {
+
+        }
     }
 }
 
