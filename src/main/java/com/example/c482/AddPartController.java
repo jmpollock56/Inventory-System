@@ -24,12 +24,11 @@ public class AddPartController  implements Initializable {
     @FXML public RadioButton outsourcedRadio;
     @FXML public Label changeText;
     @FXML public TextField id;
-
     @FXML public TextField name;
     @FXML public TextField inventory;
     @FXML public TextField cost;
-    @FXML public TextField min;
     @FXML public TextField max;
+    @FXML public TextField min;
     @FXML public TextField switchField;
     int generatedPartId;
     int generatedProductId;
@@ -63,8 +62,11 @@ public class AddPartController  implements Initializable {
 
         Random random = new Random();
 
-        int randomId = random.nextInt(9000) + 1000;
-        if (inHouseRadio.isSelected()){
+        int randomInHouseId = random.nextInt(1000) + 1000;
+        int randomOutsourcedId = random.nextInt(2000) + 1000;
+
+
+        if (inHouseRadio.isSelected()) {
             String partNameVal = name.getText();
             int partInvVal = Integer.parseInt(inventory.getText());
             double partCostVal = Double.parseDouble(cost.getText());
@@ -74,7 +76,8 @@ public class AddPartController  implements Initializable {
             System.out.println(partMinVal);
             System.out.println(partMaxVal);
 
-            if (partMinVal > partMaxVal){
+
+            if (partMinVal > partMaxVal) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Minimum is higher than Maximum");
                 alert.setHeaderText("Warning");
@@ -88,23 +91,24 @@ public class AddPartController  implements Initializable {
 
             }
 
-            Inventory.addPart(new InHouse(randomId, partNameVal, partCostVal,partInvVal,partMinVal,partMaxVal,partMachineId));
+            Inventory.addPart(new InHouse(randomInHouseId, partNameVal, partCostVal, partInvVal, partMinVal, partMaxVal, partMachineId));
 
             Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
             Scene mainScene = new Scene(mainForm);
-            Stage mainStage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage mainStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             mainStage.setScene(mainScene);
             mainStage.show();
 
+
         } else if (outsourcedRadio.isSelected()) {
-            String productNameVal = name.getText();
+             String productNameVal = name.getText();
             int productInvVal = Integer.parseInt(inventory.getText());
             double productCostVal = Double.parseDouble(cost.getText());
             int productMaxVal = Integer.parseInt(max.getText());
             int productMinVal = Integer.parseInt(min.getText());
             String productCompanyName = switchField.getText();
 
-            if (productMinVal > productMaxVal){
+            if (productMinVal > productMaxVal) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Minimum is higher than Maximum");
                 alert.setHeaderText("Warning");
@@ -115,12 +119,19 @@ public class AddPartController  implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
 
                 return;
-
             }
+            Inventory.addPart(new Outsourced(randomOutsourcedId, productNameVal, productCostVal, productInvVal, productMinVal, productMaxVal, productCompanyName));
 
-            Inventory.addPart(new Outsourced(randomId, productNameVal, productCostVal,productInvVal,productMinVal,productMaxVal,productCompanyName));
         }
+
+
+        Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
+        Scene mainScene = new Scene(mainForm);
+        Stage mainStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        mainStage.setScene(mainScene);
+        mainStage.show();
     }
 }
+
 
 

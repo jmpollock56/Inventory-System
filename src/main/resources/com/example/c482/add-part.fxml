@@ -27,9 +27,9 @@
       <TextField fx:id="name" layoutX="110.0" layoutY="139.0" />
       <TextField fx:id="inventory" layoutX="110.0" layoutY="178.0" />
       <TextField fx:id="cost" layoutX="110.0" layoutY="213.0" />
-      <TextField fx:id="min" layoutX="110.0" layoutY="257.0" />
-      <TextField fx:id="max" layoutX="110.0" layoutY="309.0" />
-      <TextField fx:id="switchField" layoutX="331.0" layoutY="257.0" />
+      <TextField fx:id="max" layoutX="110.0" layoutY="257.0" />
+      <TextField fx:id="switchField" layoutX="110.0" layoutY="309.0" />
+      <TextField fx:id="min" layoutX="331.0" layoutY="257.0" />
       <Button layoutX="360.0" layoutY="366.0" mnemonicParsing="false" onAction="#savePart" text="Save" />
       <Button layoutX="469.0" layoutY="366.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
    </children>
