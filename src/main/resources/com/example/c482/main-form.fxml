@@ -42,9 +42,10 @@
       <Button fx:id="closeButton" layoutX="764.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" text="Exit" />
       <Button layoutX="232.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToAddPart" text="Add" />
       <Button layoutX="279.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToModifyPart" text="Modify" />
-      <Button layoutX="336.0" layoutY="264.0" mnemonicParsing="false" onAction="#deletePart" text="Delete" />
+      <Button layoutX="336.0" layoutY="264.0" mnemonicParsing="false" onAction="#deletePartBtn" text="Delete" />
       <Button layoutX="773.0" layoutY="264.0" mnemonicParsing="false" onAction="#deleteProductBtn" text="Delete" />
       <Button layoutX="712.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToModifyProduct" text="Modify" />
       <Button layoutX="667.0" layoutY="264.0" mnemonicParsing="false" onAction="#moveToAddProduct" text="Add" />
+      <Label fx:id="wasNotDeleted" layoutX="51.0" layoutY="321.0" />
    </children>
 </AnchorPane>

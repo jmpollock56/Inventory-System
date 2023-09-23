@@ -2,8 +2,11 @@ package com.example.c482;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.net.ProtocolFamily;
+import java.util.Optional;
 
 public class Inventory {
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
@@ -71,15 +74,25 @@ public class Inventory {
     public static void updateProduct(int index, Product newProduct){
 
     }
-
+*/
     public static boolean deletePart(Part selectedPart){
-
+        if(allParts.contains(selectedPart)){
+            allParts.remove(selectedPart);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static boolean deleteProduct(Product selectedProduct){
-
+        if(allProducts.contains(selectedProduct)){
+            allProducts.remove(selectedProduct);
+            return true;
+        } else {
+            return false;
+        }
     }
-*/
+
     public static ObservableList<Part> getAllParts(){ return allParts; }
 
     public static ObservableList<Product> getAllProducts(){ return allProducts; }

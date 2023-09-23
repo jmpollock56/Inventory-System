@@ -1,6 +1,5 @@
 package com.example.c482;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +48,7 @@ import java.util.ResourceBundle;
         public Button closeButton;
 
         private static boolean firstTime = true;
+
 
         private void populateTables() {
             if(!firstTime){
@@ -107,6 +107,10 @@ import java.util.ResourceBundle;
 
         @FXML
         public void moveToModifyPart(ActionEvent event) throws IOException {
+
+            Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
+
+            
             Parent modifyPartForm = FXMLLoader.load(getClass().getResource("modify-part.fxml"));
             Scene modifyPartScene = new Scene(modifyPartForm);
             Stage modifyPartStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -135,47 +139,54 @@ import java.util.ResourceBundle;
             modifyProductStage.show();
         }
 
-
-        public void deletePart(ActionEvent actionEvent) {
-            Part selectedItem = (Part) partsTable.getSelectionModel().getSelectedItem();
-
+        
+        public void deletePartBtn(ActionEvent actionEvent) {
+            Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm Deletion of Part");
             alert.setHeaderText("Confirm");
-            alert.setContentText("Are you sure that you want to delete " + selectedItem.getName() + "?");
+            alert.setContentText("Are you sure that you want to delete " + selectedPart.getName() + "?");
 
             alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
 
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.YES) {
-                partsTable.getItems().remove(selectedItem);
+                Inventory.deletePart(selectedPart);
             } else {
-                System.out.println("Canceled");
+                Alert notDeleted = new Alert(Alert.AlertType.CONFIRMATION);
+                notDeleted.setTitle("Confirmation");
+                notDeleted.setContentText("Part was not deleted");
+                notDeleted.getButtonTypes().setAll(ButtonType.OK);
+                Optional<ButtonType> confirm = notDeleted.showAndWait();
             }
 
         }
 
         public void deleteProductBtn(ActionEvent actionEvent) {
 
-            Product selectedItem = (Product) productTable.getSelectionModel().getSelectedItem();
+            Product selectedProduct = (Product) productTable.getSelectionModel().getSelectedItem();
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm Deletion of Part");
             alert.setHeaderText("Confirm");
-            alert.setContentText("Are you sure that you want to delete " + selectedItem.getName() + "?");
+            alert.setContentText("Are you sure that you want to delete " + selectedProduct.getName() + "?");
 
             alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
 
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.YES) {
-                partsTable.getItems().remove(selectedItem);
+                Inventory.deleteProduct(selectedProduct);
             } else {
-                System.out.println("Canceled");
+                Alert notDeleted = new Alert(Alert.AlertType.CONFIRMATION);
+                notDeleted.setTitle("Confirmation");
+                notDeleted.setContentText("Product was not deleted");
+                notDeleted.getButtonTypes().setAll(ButtonType.OK);
+                Optional<ButtonType> confirm = notDeleted.showAndWait();
             }
-            productTable.getItems().remove(selectedItem);
+
         }
 
         @FXML
@@ -184,18 +195,47 @@ import java.util.ResourceBundle;
 
             ObservableList<Part> parts = Inventory.lookupPart(q);
 
+            if (!parts.isEmpty()){
+                partsTable.setItems(parts);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Unable to find Part");
+                alert.setHeaderText("Error");
+                alert.setContentText("Unable to find Part based on the name");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    return;
+                }
+            }
+
             if (parts.size() == 0) {
                 try {
                     int partId = Integer.parseInt(q);
                     Part numPart = (Part) Inventory.lookupPart(partId);
                     if (numPart != null) {
                         parts.add(numPart);
+                        partsTable.setItems(parts);
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Unable to find Part");
+                        alert.setHeaderText("Error");
+                        alert.setContentText("Unable to find Part based on the ID");
+
+                        alert.getButtonTypes().setAll(ButtonType.OK);
+
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.get() == ButtonType.OK){
+                            return;
+                        }
                     }
                 } catch (NumberFormatException e) {
                     //ignore
                 }
             }
-            partsTable.setItems(parts);
+
 
 
         }
@@ -205,25 +245,48 @@ import java.util.ResourceBundle;
 
             ObservableList<Product> products = Inventory.lookupProduct(p);
 
-            if (products.size() == 0) {
+            if (!products.isEmpty()){
+                productTable.setItems(products);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Unable to find Product");
+                alert.setHeaderText("Error");
+                alert.setContentText("Unable to find Product based on the name");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    return;
+                }
+            }
+
+            if (products.isEmpty()) {
                 try {
                     int productId = Integer.parseInt(p);
                     Product numProduct = (Product) Inventory.lookupProduct(productId);
                     if (numProduct != null) {
                         products.add(numProduct);
+                        productTable.setItems(products);
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Unable to find Product");
+                        alert.setHeaderText("Error");
+                        alert.setContentText("Unable to find Product based on the ID");
+
+                        alert.getButtonTypes().setAll(ButtonType.OK);
+
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.get() == ButtonType.OK){
+                            return;
+                        }
                     }
                 } catch (NumberFormatException e) {
                     //ignore
                 }
             }
-            productTable.setItems(products);
-
 
         }
-
-
-
-
     }
 
 

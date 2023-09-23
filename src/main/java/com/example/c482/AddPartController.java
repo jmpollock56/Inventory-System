@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -30,13 +31,12 @@ public class AddPartController  implements Initializable {
     @FXML public TextField max;
     @FXML public TextField min;
     @FXML public TextField switchField;
-    int generatedPartId;
-    int generatedProductId;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Welcome to the 'Add a Part Page!'");
+
     }
 
     @FXML
@@ -59,12 +59,10 @@ public class AddPartController  implements Initializable {
 
 
     public void savePart(ActionEvent actionEvent) throws IOException {
-
         Random random = new Random();
 
         int randomInHouseId = random.nextInt(1000) + 1000;
         int randomOutsourcedId = random.nextInt(2000) + 1000;
-
 
         if (inHouseRadio.isSelected()) {
             String partNameVal = name.getText();
@@ -73,9 +71,6 @@ public class AddPartController  implements Initializable {
             int partMaxVal = Integer.parseInt(max.getText());
             int partMinVal = Integer.parseInt(min.getText());
             int partMachineId = Integer.parseInt(switchField.getText());
-            System.out.println(partMinVal);
-            System.out.println(partMaxVal);
-
 
             if (partMinVal > partMaxVal) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -93,7 +88,7 @@ public class AddPartController  implements Initializable {
 
             Inventory.addPart(new InHouse(randomInHouseId, partNameVal, partCostVal, partInvVal, partMinVal, partMaxVal, partMachineId));
 
-            Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
+            Parent mainForm = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main-form.fxml")));
             Scene mainScene = new Scene(mainForm);
             Stage mainStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             mainStage.setScene(mainScene);
@@ -101,7 +96,8 @@ public class AddPartController  implements Initializable {
 
 
         } else if (outsourcedRadio.isSelected()) {
-             String productNameVal = name.getText();
+
+            String productNameVal = name.getText();
             int productInvVal = Integer.parseInt(inventory.getText());
             double productCostVal = Double.parseDouble(cost.getText());
             int productMaxVal = Integer.parseInt(max.getText());
@@ -125,7 +121,7 @@ public class AddPartController  implements Initializable {
         }
 
 
-        Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
+        Parent mainForm = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main-form.fxml")));
         Scene mainScene = new Scene(mainForm);
         Stage mainStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         mainStage.setScene(mainScene);
