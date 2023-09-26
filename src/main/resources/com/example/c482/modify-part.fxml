@@ -6,11 +6,11 @@
 
 <AnchorPane prefHeight="422.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c482.ModifyPartController">
     <children>
-        <RadioButton layoutX="176.0" layoutY="39.0" mnemonicParsing="false" text="In-House">
+        <RadioButton fx:id="modInHouseRadio" layoutX="176.0" layoutY="39.0" mnemonicParsing="false" selected="true" text="In-House">
          <toggleGroup>
             <ToggleGroup fx:id="mgroup" />
          </toggleGroup></RadioButton>
-        <RadioButton layoutX="370.0" layoutY="39.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$mgroup" />
+        <RadioButton fx:id="modOutsourcedRadio" layoutX="370.0" layoutY="39.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$mgroup" />
         <Label layoutX="31.0" layoutY="37.0" text="Modify Part">
             <font>
                 <Font name="System Bold" size="14.0" />
@@ -23,13 +23,13 @@
         <Label layoutX="38.0" layoutY="261.0" text="Max" />
         <Label layoutX="279.0" layoutY="261.0" text="Min" />
         <Label layoutX="19.0" layoutY="313.0" text="Machine ID" />
-        <TextField disable="true" editable="false" layoutX="102.0" layoutY="101.0" promptText="Auto Gen - Disabled" />
-        <TextField layoutX="102.0" layoutY="139.0" />
-        <TextField layoutX="102.0" layoutY="178.0" />
-        <TextField layoutX="102.0" layoutY="213.0" />
-        <TextField layoutX="102.0" layoutY="257.0" />
-        <TextField layoutX="102.0" layoutY="309.0" />
-        <TextField layoutX="331.0" layoutY="257.0" />
+        <TextField fx:id="modPartId" disable="true" editable="false" layoutX="102.0" layoutY="101.0" promptText="Auto Gen - Disabled" />
+        <TextField fx:id="modPartName" layoutX="102.0" layoutY="139.0" />
+        <TextField fx:id="modPartInv" layoutX="102.0" layoutY="178.0" />
+        <TextField fx:id="modPartCost" layoutX="102.0" layoutY="213.0" />
+        <TextField fx:id="modPartMax" layoutX="102.0" layoutY="257.0" />
+        <TextField fx:id="modPartSwitch" layoutX="102.0" layoutY="309.0" />
+        <TextField fx:id="modPartMin" layoutX="331.0" layoutY="257.0" />
         <Button layoutX="360.0" layoutY="366.0" mnemonicParsing="false" text="Save" />
         <Button layoutX="469.0" layoutY="366.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
     </children>

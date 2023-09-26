@@ -20,11 +20,12 @@ import java.util.ResourceBundle;
 
 public class AddPartController  implements Initializable {
 
-
    @FXML public RadioButton inHouseRadio;
     @FXML public RadioButton outsourcedRadio;
     @FXML public Label changeText;
+
     @FXML public TextField id;
+
     @FXML public TextField name;
     @FXML public TextField inventory;
     @FXML public TextField cost;
@@ -59,18 +60,35 @@ public class AddPartController  implements Initializable {
 
 
     public void savePart(ActionEvent actionEvent) throws IOException {
+
         Random random = new Random();
 
         int randomInHouseId = random.nextInt(1000) + 1000;
         int randomOutsourcedId = random.nextInt(2000) + 1000;
 
         if (inHouseRadio.isSelected()) {
+
+            if ((name.getText().isEmpty() || inventory.getText().isEmpty() || cost.getText().isEmpty() || max.getText().isEmpty() || min.getText().isEmpty() || switchField.getText().isEmpty())){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Information Missing");
+                alert.setHeaderText("Warning");
+                alert.setContentText("Please Fill Out All of the Fields");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                return;
+            }
+
             String partNameVal = name.getText();
             int partInvVal = Integer.parseInt(inventory.getText());
             double partCostVal = Double.parseDouble(cost.getText());
             int partMaxVal = Integer.parseInt(max.getText());
             int partMinVal = Integer.parseInt(min.getText());
             int partMachineId = Integer.parseInt(switchField.getText());
+
+
 
             if (partMinVal > partMaxVal) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -96,6 +114,19 @@ public class AddPartController  implements Initializable {
 
 
         } else if (outsourcedRadio.isSelected()) {
+
+            if ((name.getText().isEmpty() || inventory.getText().isEmpty() || cost.getText().isEmpty() || max.getText().isEmpty() || min.getText().isEmpty() || switchField.getText().isEmpty())){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Information Missing");
+                alert.setHeaderText("Warning");
+                alert.setContentText("Please Fill Out All of the Fields");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                return;
+            }
 
             String productNameVal = name.getText();
             int productInvVal = Integer.parseInt(inventory.getText());

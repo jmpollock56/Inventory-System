@@ -108,15 +108,15 @@ import java.util.ResourceBundle;
         @FXML
         public void moveToModifyPart(ActionEvent event) throws IOException {
 
-            Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
-
-            
             Parent modifyPartForm = FXMLLoader.load(getClass().getResource("modify-part.fxml"));
             Scene modifyPartScene = new Scene(modifyPartForm);
             Stage modifyPartStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             modifyPartStage.setScene(modifyPartScene);
             modifyPartStage.show();
+
+            Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
+            ModifyPartController.loadPartData(selectedPart);
         }
 
         @FXML
@@ -137,6 +137,7 @@ import java.util.ResourceBundle;
 
             modifyProductStage.setScene(modifyProductScene);
             modifyProductStage.show();
+
         }
 
         
@@ -197,21 +198,10 @@ import java.util.ResourceBundle;
 
             if (!parts.isEmpty()){
                 partsTable.setItems(parts);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Unable to find Part");
-                alert.setHeaderText("Error");
-                alert.setContentText("Unable to find Part based on the name");
 
-                alert.getButtonTypes().setAll(ButtonType.OK);
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                    return;
-                }
             }
 
-            if (parts.size() == 0) {
+            if (parts.isEmpty()) {
                 try {
                     int partId = Integer.parseInt(q);
                     Part numPart = (Part) Inventory.lookupPart(partId);
@@ -247,18 +237,6 @@ import java.util.ResourceBundle;
 
             if (!products.isEmpty()){
                 productTable.setItems(products);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Unable to find Product");
-                alert.setHeaderText("Error");
-                alert.setContentText("Unable to find Product based on the name");
-
-                alert.getButtonTypes().setAll(ButtonType.OK);
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                    return;
-                }
             }
 
             if (products.isEmpty()) {
