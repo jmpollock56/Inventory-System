@@ -16,24 +16,43 @@ import java.util.ResourceBundle;
 
 public class ModifyPartController implements Initializable {
     private static Part modifablePart;
-    @FXML public static TextField modPartId;
 
-    @FXML public TextField modPartName;
-    @FXML public TextField modPartInv;
-    @FXML public TextField modPartMax;
-    @FXML public TextField modPartCost;
-    @FXML public TextField modPartSwitch;
-    @FXML public TextField modPartMin;
+
+    @FXML public static TextField modPartName;
+    @FXML public static TextField modPartInv;
+    @FXML public static TextField modPartMax;
+    @FXML public static TextField modPartCost;
+    @FXML public static TextField modPartSwitch;
+    @FXML public static TextField modPartMin;
+    @FXML public TextField modPartId;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Welcome to the 'Modify a Part Page!'");
 
-
     }
     public static void loadPartData(Part selectedPart){
+
         modifablePart = selectedPart;
-        modPartId.setText(Integer.toString(modifablePart.getId()));
+
+        int partId = modifablePart.getId();
+        String partName = modifablePart.getName();
+        int partInv = modifablePart.getStock();
+        double partCost = modifablePart.getPrice();
+        int partMax = modifablePart.getMax();
+        int partMin = modifablePart.getMin();
+
+
+        //modPartId.setText(Integer.toString(partId));
+        modPartName.setText("Hey");
+        modPartInv.setText(Integer.toString(partInv));
+        modPartCost.setText(Double.toString(partCost));
+        modPartMax.setText(Integer.toString(partMax));
+        modPartMin.setText(Integer.toString(partMin));
+
+
+
+
     }
 
 

@@ -115,8 +115,8 @@ import java.util.ResourceBundle;
             modifyPartStage.setScene(modifyPartScene);
             modifyPartStage.show();
 
-            Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
-            ModifyPartController.loadPartData(selectedPart);
+            Part selectedModifyPart = (Part) partsTable.getSelectionModel().getSelectedItem();
+            ModifyPartController.loadPartData(selectedModifyPart);
         }
 
         @FXML
