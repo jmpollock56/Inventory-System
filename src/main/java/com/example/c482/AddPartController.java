@@ -146,6 +146,12 @@ public class AddPartController  implements Initializable {
             }
 
             Inventory.addPart(new Outsourced(randomId, productNameVal, productCostVal,productInvVal,productMinVal,productMaxVal,productCompanyName));
+
+            Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
+            Scene mainScene = new Scene(mainForm);
+            Stage mainStage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            mainStage.setScene(mainScene);
+            mainStage.show();
         }
     }
 }

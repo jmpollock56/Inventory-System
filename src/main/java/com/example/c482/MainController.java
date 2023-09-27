@@ -107,16 +107,34 @@ import java.util.ResourceBundle;
 
         @FXML
         public void moveToModifyPart(ActionEvent event) throws IOException {
+            Part selectedModifyPart = (Part) partsTable.getSelectionModel().getSelectedItem();
+            int index = partsTable.getSelectionModel().getSelectedIndex();
 
-            Parent modifyPartForm = FXMLLoader.load(getClass().getResource("modify-part.fxml"));
+            if(selectedModifyPart == null){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("No Part Selected");
+                alert.setHeaderText("Warning");
+                alert.setContentText("Please Select a Part You Would Like to Modify");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modify-part.fxml"));
+            Parent modifyPartForm = loader.load();
+            ModifyPartController modifyPartController = loader.getController();
+
             Scene modifyPartScene = new Scene(modifyPartForm);
             Stage modifyPartStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             modifyPartStage.setScene(modifyPartScene);
             modifyPartStage.show();
 
-            Part selectedModifyPart = (Part) partsTable.getSelectionModel().getSelectedItem();
-            ModifyPartController.loadPartData(selectedModifyPart);
+
+            modifyPartController.loadPartData(index, selectedModifyPart);
         }
 
         @FXML
