@@ -7,12 +7,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyPartController implements Initializable {
@@ -90,14 +93,28 @@ public class ModifyPartController implements Initializable {
 
     }
 
-    public void saveModifyPart(ActionEvent actionEvent){
+    public void saveModifyPart(ActionEvent actionEvent) throws IOException {
         System.out.println(index);
         int newPartId = Integer.parseInt(modPartId.getText());
         String newPartName = modPartName.getText();
         int newPartInv = Integer.parseInt(modPartInv.getText());
-        int newPartCost = Integer.parseInt(modPartCost.getText());
+        double newPartCost = Double.parseDouble(modPartCost.getText());
         int newPartMin = Integer.parseInt(modPartMin.getText());
         int newPartMax = Integer.parseInt(modPartMin.getText());
+
+        if (newPartMin > newPartMax){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Minimum is higher than Maximum");
+            alert.setHeaderText("Warning");
+            alert.setContentText("The Minimum stock should be lower than the Maximum stock");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+
+        }
 
         if(modifablePart instanceof InHouse){
             int newPartMachineId = Integer.parseInt(modPartSwitch.getText());
@@ -111,6 +128,14 @@ public class ModifyPartController implements Initializable {
 
             Inventory.updatePart(index, modifiedOutPart);
         }
+
+        Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
+        Scene mainScene = new Scene(mainForm);
+        Stage mainStage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+
+        mainStage.setScene(mainScene);
+        mainStage.show();
+
     }
 
 
