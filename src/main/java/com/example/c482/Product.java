@@ -49,13 +49,17 @@ public class Product {
     public int getMax(){ return max; }
 
     public void addAssociatedPart(Part part){
-
+        associatedParts.addAll(part);
     }
-/**
+
     public boolean deleteAssociatedPart(Part selectedAssociatedPart){
-
+        if (associatedParts.contains(selectedAssociatedPart)){
+            associatedParts.remove(selectedAssociatedPart);
+            return true;
+        }
+        return false;
     }
- */
+
 
     public ObservableList<Part> getAssociatedParts() {
         return associatedParts;

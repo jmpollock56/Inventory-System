@@ -57,15 +57,15 @@ import java.util.ResourceBundle;
             firstTime = false;
 
 
-            Inventory.addProduct(new Product(1, "Big Bike", 10.99, 200, 1, 45));
-            Inventory.addProduct(new Product(2, "Little Trike", 12.99, 100, 1, 15));
-            Inventory.addProduct(new Product(3, "Motorcycle", 15.99, 200, 1, 50));
+            Inventory.addProduct(new Product(70012, "Big Bike", 10.99, 200, 1, 300));
+            Inventory.addProduct(new Product(64538, "Little Trike", 12.99, 100, 1, 150));
+            Inventory.addProduct(new Product(43874, "Motorcycle", 15.99, 200, 1, 500));
 
 
 
-            Inventory.addPart(new InHouse(1, "Chain", 10.99, 100, 1, 24, 11111));
-            Inventory.addPart(new InHouse(2, "Wheel", 5.99, 10, 1, 20, 11211));
-            Inventory.addPart(new InHouse(3, "Sprocket", 8.99, 200, 1, 50, 11211));
+            Inventory.addPart(new InHouse(4796, "Chain", 10.99, 100, 1, 300, 11111));
+            Inventory.addPart(new InHouse(2256, "Wheel", 5.99, 10, 1, 200, 11211));
+            Inventory.addPart(new Outsourced(3092, "Sprocket", 8.99, 200, 1, 500, "Miller"));
 
 
         }
@@ -142,7 +142,7 @@ import java.util.ResourceBundle;
             Parent addProductForm = FXMLLoader.load(getClass().getResource("add-product.fxml"));
             Scene addProductScene = new Scene(addProductForm);
             Stage addProductStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            System.out.println(productTable.getItems());
+
             addProductStage.setScene(addProductScene);
             addProductStage.show();
         }

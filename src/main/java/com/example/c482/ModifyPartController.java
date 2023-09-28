@@ -7,10 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -31,6 +28,8 @@ public class ModifyPartController implements Initializable {
     @FXML public TextField modPartSwitch;
     @FXML public TextField modPartMin;
     @FXML public TextField modPartId;
+    @FXML public Label switchField;
+
 
     int index = 0;
 
@@ -66,7 +65,7 @@ public class ModifyPartController implements Initializable {
 
         } else if (selectedPart instanceof Outsourced){
             modOutsourcedRadio.setSelected(true);
-
+            switchField.setText("Company Name");
             Outsourced outsourcedPart = (Outsourced) selectedPart;
 
             int partId = modifablePart.getId();
@@ -94,15 +93,29 @@ public class ModifyPartController implements Initializable {
     }
 
     public void saveModifyPart(ActionEvent actionEvent) throws IOException {
-        System.out.println(index);
+
+        if ((modPartName.getText().isEmpty() || modPartInv.getText().isEmpty() || modPartCost.getText().isEmpty() || modPartMax.getText().isEmpty() || modPartMin.getText().isEmpty() || switchField.getText().isEmpty())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Information Missing");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Please Fill Out All of the Fields");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+        }
+
         int newPartId = Integer.parseInt(modPartId.getText());
         String newPartName = modPartName.getText();
         int newPartInv = Integer.parseInt(modPartInv.getText());
         double newPartCost = Double.parseDouble(modPartCost.getText());
         int newPartMin = Integer.parseInt(modPartMin.getText());
-        int newPartMax = Integer.parseInt(modPartMin.getText());
+        int newPartMax = Integer.parseInt(modPartMax.getText());
 
-        if (newPartMin > newPartMax){
+
+        if ((newPartMin > newPartMax)){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Minimum is higher than Maximum");
             alert.setHeaderText("Warning");
@@ -115,6 +128,21 @@ public class ModifyPartController implements Initializable {
             return;
 
         }
+
+        if((newPartInv > newPartMin) && (newPartMax < newPartInv)){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Inventory Error");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Inventory Should be between the Min and Max values");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+        }
+        System.out.println("Max: " + newPartMax);
+        System.out.println("Min: " + newPartMin);
 
         if(modifablePart instanceof InHouse){
             int newPartMachineId = Integer.parseInt(modPartSwitch.getText());

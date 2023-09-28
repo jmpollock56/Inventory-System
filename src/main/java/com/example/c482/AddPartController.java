@@ -84,8 +84,7 @@ public class AddPartController  implements Initializable {
             int partMaxVal = Integer.parseInt(max.getText());
             int partMinVal = Integer.parseInt(min.getText());
             int partMachineId = Integer.parseInt(switchField.getText());
-            System.out.println(partMinVal);
-            System.out.println(partMaxVal);
+
 
             if (partMinVal > partMaxVal){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -99,6 +98,19 @@ public class AddPartController  implements Initializable {
 
                 return;
 
+            }
+
+            if((partMinVal > partInvVal) || (partMaxVal < partInvVal)){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Inventory Error");
+                alert.setHeaderText("Warning");
+                alert.setContentText("Inventory Should be between the Min and Max values");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                return;
             }
 
             Inventory.addPart(new InHouse(randomId, partNameVal, partCostVal,partInvVal,partMinVal,partMaxVal,partMachineId));
@@ -124,14 +136,14 @@ public class AddPartController  implements Initializable {
                 return;
             }
 
-            String productNameVal = name.getText();
-            int productInvVal = Integer.parseInt(inventory.getText());
-            double productCostVal = Double.parseDouble(cost.getText());
-            int productMaxVal = Integer.parseInt(max.getText());
-            int productMinVal = Integer.parseInt(min.getText());
-            String productCompanyName = switchField.getText();
+            String outsourcedNameVal = name.getText();
+            int outsourcedInvVal = Integer.parseInt(inventory.getText());
+            double outsourcedCostVal = Double.parseDouble(cost.getText());
+            int outsourcedMaxVal = Integer.parseInt(max.getText());
+            int outsourcedMinVal = Integer.parseInt(min.getText());
+            String outsourcedCompanyName = switchField.getText();
 
-            if (productMinVal > productMaxVal){
+            if (outsourcedMinVal > outsourcedMaxVal){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Minimum is higher than Maximum");
                 alert.setHeaderText("Warning");
@@ -145,7 +157,20 @@ public class AddPartController  implements Initializable {
 
             }
 
-            Inventory.addPart(new Outsourced(randomId, productNameVal, productCostVal,productInvVal,productMinVal,productMaxVal,productCompanyName));
+            if((outsourcedMinVal > outsourcedInvVal) || (outsourcedMaxVal < outsourcedInvVal)){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Inventory Error");
+                alert.setHeaderText("Warning");
+                alert.setContentText("Inventory Should be between the Min and Max values");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                return;
+            }
+
+            Inventory.addPart(new Outsourced(randomId, outsourcedNameVal, outsourcedCostVal,outsourcedInvVal,outsourcedMinVal,outsourcedMaxVal,outsourcedCompanyName));
 
             Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
             Scene mainScene = new Scene(mainForm);
