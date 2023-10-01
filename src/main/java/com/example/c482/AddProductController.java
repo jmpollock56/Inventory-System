@@ -1,5 +1,6 @@
 package com.example.c482;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +35,7 @@ public class AddProductController implements Initializable {
     public TextField productCostField;
     public TextField productMaxField;
     public TextField productMinField;
+    public TextField partSearch;
 
     int randomProdId;
     String prodName;
@@ -43,7 +45,6 @@ public class AddProductController implements Initializable {
     int prodMax;
 
     Product currentProduct = new Product(0, "", 0.0, 0, 0, 0);
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -66,8 +67,6 @@ public class AddProductController implements Initializable {
         mainStage.setScene(mainScene);
         mainStage.show();
     }
-
-
 
     public void saveNewProduct(ActionEvent actionEvent) throws IOException {
         Random random = new Random();
@@ -169,6 +168,54 @@ public class AddProductController implements Initializable {
             notDeleted.setContentText("Part was not removed");
             notDeleted.getButtonTypes().setAll(ButtonType.OK);
             Optional<ButtonType> confirm = notDeleted.showAndWait();
+        }
+    }
+
+    public void partSearch(){
+        String q = partSearch.getText();
+
+        ObservableList<Part> parts = Inventory.lookupPart(q);
+
+        if (!parts.isEmpty()){
+            allPartTable.setItems(parts);
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Unable to find Part");
+            alert.setHeaderText("Error");
+            alert.setContentText("Unable to find Part based on the Search");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                return;
+            }
+        }
+
+        if (parts.isEmpty()) {
+            try {
+                int partId = Integer.parseInt(q);
+                Part numPart = Inventory.lookupPart(partId);
+                if (numPart != null) {
+                    parts.add(numPart);
+                    allPartTable.setItems(parts);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Unable to find Part");
+                    alert.setHeaderText("Error");
+                    alert.setContentText("Unable to find Part based on the ID");
+
+                    alert.getButtonTypes().setAll(ButtonType.OK);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.OK){
+                        return;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                //ignore
+            }
         }
     }
 

@@ -19,12 +19,9 @@ public class Inventory {
             Part x = allParts.get(i);
 
             if(x.getId() == partId){
-                
                 return x;
             }
         }
-
-
         return null;
     }
 
@@ -69,7 +66,7 @@ public class Inventory {
     }
 
     public static void updateProduct(int index, Product newProduct){
-
+        allProducts.set(index, newProduct);
     }
 
     public static boolean deletePart(Part selectedPart){

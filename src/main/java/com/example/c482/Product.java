@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Product {
-    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    private static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
     private int id;
     private String name;
@@ -49,7 +49,7 @@ public class Product {
     public int getMax(){ return max; }
 
     public void addAssociatedPart(Part part){
-        associatedParts.addAll(part);
+        associatedParts.add(part);
     }
 
     public boolean deleteAssociatedPart(Part selectedAssociatedPart){

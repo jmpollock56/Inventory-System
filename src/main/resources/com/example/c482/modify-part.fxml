@@ -6,11 +6,11 @@
 
 <AnchorPane prefHeight="422.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c482.ModifyPartController">
     <children>
-        <RadioButton fx:id="modInHouseRadio" layoutX="176.0" layoutY="39.0" mnemonicParsing="false" selected="true" text="In-House">
+        <RadioButton fx:id="modInHouseRadio" layoutX="176.0" layoutY="39.0" mnemonicParsing="false" onAction="#inHouseRadioClick" selected="true" text="In-House">
          <toggleGroup>
             <ToggleGroup fx:id="mgroup" />
          </toggleGroup></RadioButton>
-        <RadioButton fx:id="modOutsourcedRadio" layoutX="370.0" layoutY="39.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$mgroup" />
+        <RadioButton fx:id="modOutsourcedRadio" layoutX="370.0" layoutY="39.0" mnemonicParsing="false" onAction="#outsourcedRadioClick" text="Outsourced" toggleGroup="$mgroup" />
         <Label layoutX="31.0" layoutY="37.0" text="Modify Part">
             <font>
                 <Font name="System Bold" size="14.0" />

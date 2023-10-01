@@ -21,14 +21,23 @@ public class ModifyPartController implements Initializable {
     public Part modifablePart;
 
 
-    @FXML public TextField modPartName;
-    @FXML public TextField modPartInv;
-    @FXML public TextField modPartMax;
-    @FXML public TextField modPartCost;
-    @FXML public TextField modPartSwitch;
-    @FXML public TextField modPartMin;
-    @FXML public TextField modPartId;
-    @FXML public Label switchField;
+    @FXML
+    public TextField modPartName;
+    @FXML
+    public TextField modPartInv;
+    @FXML
+    public TextField modPartMax;
+    @FXML
+    public TextField modPartCost;
+    @FXML
+    public TextField modPartSwitch;
+    @FXML
+    public TextField modPartMin;
+    @FXML
+    public TextField modPartId;
+    @FXML
+    public Label switchField;
+    public TextField partSearch;
 
 
     int index = 0;
@@ -38,10 +47,11 @@ public class ModifyPartController implements Initializable {
         System.out.println("Welcome to the 'Modify a Part Page!'");
 
     }
-    public void loadPartData(int partIndex, Part selectedPart){
+
+    public void loadPartData(int partIndex, Part selectedPart) {
         modifablePart = selectedPart;
         index = partIndex;
-        if (selectedPart instanceof InHouse){
+        if (selectedPart instanceof InHouse) {
             modInHouseRadio.setSelected(true);
 
             InHouse inHousePart = (InHouse) selectedPart;
@@ -63,7 +73,7 @@ public class ModifyPartController implements Initializable {
             modPartMin.setText(Integer.toString(partMin));
             modPartSwitch.setText(Integer.toString(partMachineId));
 
-        } else if (selectedPart instanceof Outsourced){
+        } else if (selectedPart instanceof Outsourced) {
             modOutsourcedRadio.setSelected(true);
             switchField.setText("Company Name");
             Outsourced outsourcedPart = (Outsourced) selectedPart;
@@ -88,13 +98,11 @@ public class ModifyPartController implements Initializable {
         }
 
 
-
-
     }
 
     public void saveModifyPart(ActionEvent actionEvent) throws IOException {
 
-        if ((modPartName.getText().isEmpty() || modPartInv.getText().isEmpty() || modPartCost.getText().isEmpty() || modPartMax.getText().isEmpty() || modPartMin.getText().isEmpty() || switchField.getText().isEmpty())){
+        if ((modPartName.getText().isEmpty() || modPartInv.getText().isEmpty() || modPartCost.getText().isEmpty() || modPartMax.getText().isEmpty() || modPartMin.getText().isEmpty() || switchField.getText().isEmpty())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Information Missing");
             alert.setHeaderText("Warning");
@@ -115,7 +123,7 @@ public class ModifyPartController implements Initializable {
         int newPartMax = Integer.parseInt(modPartMax.getText());
 
 
-        if ((newPartMin > newPartMax)){
+        if ((newPartMin > newPartMax)) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Minimum is higher than Maximum");
             alert.setHeaderText("Warning");
@@ -129,7 +137,7 @@ public class ModifyPartController implements Initializable {
 
         }
 
-        if((newPartInv > newPartMin) && (newPartMax < newPartInv)){
+        if ((newPartInv > newPartMin) && (newPartMax < newPartInv)) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Inventory Error");
             alert.setHeaderText("Warning");
@@ -144,7 +152,7 @@ public class ModifyPartController implements Initializable {
         System.out.println("Max: " + newPartMax);
         System.out.println("Min: " + newPartMin);
 
-        if(modifablePart instanceof InHouse){
+        if (modInHouseRadio.isSelected()) {
             int newPartMachineId = Integer.parseInt(modPartSwitch.getText());
             InHouse modifiedInPart = new InHouse(newPartId, newPartName, newPartCost, newPartInv, newPartMin, newPartMax, newPartMachineId);
             Inventory.updatePart(index, modifiedInPart);
@@ -152,27 +160,37 @@ public class ModifyPartController implements Initializable {
         } else {
             String newPartCompanyName = modPartSwitch.getText();
 
+
             Outsourced modifiedOutPart = new Outsourced(newPartId, newPartName, newPartCost, newPartInv, newPartMin, newPartMax, newPartCompanyName);
 
             Inventory.updatePart(index, modifiedOutPart);
+
         }
 
         Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
         Scene mainScene = new Scene(mainForm);
-        Stage mainStage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage mainStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
         mainStage.setScene(mainScene);
         mainStage.show();
 
     }
 
+    public void inHouseRadioClick(ActionEvent actionEvent) {
+        switchField.setText("Machine ID");
+    }
+
+    public void outsourcedRadioClick(ActionEvent actionEvent) {
+        switchField.setText("Company Name");
+    }
 
     public void cancelButton(ActionEvent event) throws IOException {
         Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
         Scene mainScene = new Scene(mainForm);
-        Stage mainStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         mainStage.setScene(mainScene);
         mainStage.show();
     }
+
 }

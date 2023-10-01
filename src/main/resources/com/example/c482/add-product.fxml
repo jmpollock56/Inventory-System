@@ -11,7 +11,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField layoutX="599.0" layoutY="25.0" prefHeight="25.0" prefWidth="161.0" promptText="Search by Part ID or Name" />
+      <TextField fx:id="partSearch" layoutX="599.0" layoutY="25.0" prefHeight="25.0" prefWidth="161.0" onAction="#partSearch" promptText="Search by Part ID or Name" />
       <TableView fx:id="allPartTable" layoutX="374.0" layoutY="62.0" prefHeight="200.0" prefWidth="386.0">
         <columns>
           <TableColumn fx:id="allPartId" prefWidth="75.0" text="Part ID" />

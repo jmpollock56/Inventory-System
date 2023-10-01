@@ -34,7 +34,6 @@ public class AddPartController  implements Initializable {
     int generatedPartId;
     int generatedProductId;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Welcome to the 'Add a Part Page!'");

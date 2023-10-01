@@ -139,22 +139,44 @@ import java.util.ResourceBundle;
 
         @FXML
         public void moveToAddProduct(ActionEvent event) throws IOException {
-            Parent addProductForm = FXMLLoader.load(getClass().getResource("add-product.fxml"));
-            Scene addProductScene = new Scene(addProductForm);
-            Stage addProductStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            addProductStage.setScene(addProductScene);
-            addProductStage.show();
-        }
-
-        @FXML
-        public void moveToModifyProduct(ActionEvent event) throws IOException {
-            Parent modifyProductForm = FXMLLoader.load(getClass().getResource("modify-product.fxml"));
+            Parent modifyProductForm = FXMLLoader.load(getClass().getResource("add-product.fxml"));
             Scene modifyProductScene = new Scene(modifyProductForm);
             Stage modifyProductStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             modifyProductStage.setScene(modifyProductScene);
             modifyProductStage.show();
+
+        }
+
+        @FXML
+        public void moveToModifyProduct(ActionEvent event) throws IOException {
+            Product selectedProduct = (Product) productTable.getSelectionModel().getSelectedItem();
+            int productIndex = productTable.getSelectionModel().getSelectedIndex();
+
+            if(selectedProduct == null){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("No Part Selected");
+                alert.setHeaderText("Warning");
+                alert.setContentText("Please Select a Product You Would Like to Modify");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                return;
+            }
+             System.out.println(selectedProduct.getAssociatedParts());
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modify-product.fxml"));
+            Parent modifyProductForm = loader.load();
+            ModifyProductController modifyProductController = loader.getController();
+
+            Scene modifyPartScene = new Scene(modifyProductForm);
+            Stage modifyPartStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            modifyPartStage.setScene(modifyPartScene);
+            modifyPartStage.show();
+
+            modifyProductController.populateTables(productIndex, selectedProduct);
 
         }
 
@@ -217,6 +239,18 @@ import java.util.ResourceBundle;
             if (!parts.isEmpty()){
                 partsTable.setItems(parts);
 
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Unable to find Part");
+                alert.setHeaderText("Error");
+                alert.setContentText("Unable to find Part based on the Search");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    return;
+                }
             }
 
             if (parts.isEmpty()) {
@@ -230,7 +264,7 @@ import java.util.ResourceBundle;
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Unable to find Part");
                         alert.setHeaderText("Error");
-                        alert.setContentText("Unable to find Part based on the ID");
+                        alert.setContentText("Unable to find Part based on the Search");
 
                         alert.getButtonTypes().setAll(ButtonType.OK);
 
@@ -243,8 +277,6 @@ import java.util.ResourceBundle;
                     //ignore
                 }
             }
-
-
 
         }
 
