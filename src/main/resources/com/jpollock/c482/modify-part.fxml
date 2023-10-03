@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="422.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c482.ModifyPartController">
+<AnchorPane prefHeight="422.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jpollock.c482.ModifyPartController">
     <children>
         <RadioButton fx:id="modInHouseRadio" layoutX="176.0" layoutY="39.0" mnemonicParsing="false" onAction="#inHouseRadioClick" selected="true" text="In-House">
          <toggleGroup>

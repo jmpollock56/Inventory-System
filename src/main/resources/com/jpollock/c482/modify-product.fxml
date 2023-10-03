@@ -4,19 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="621.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.c482.ModifyProductController">
+<AnchorPane prefHeight="621.0" prefWidth="811.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jpollock.c482.ModifyProductController">
    <children>
       <Label layoutX="31.0" layoutY="27.0" text="Modify Product">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="partSearchField" layoutX="598.0" layoutY="25.0" prefHeight="25.0" prefWidth="162.0" onAction="#partSearch" promptText="Search by Part ID or Name" />
+      <TextField fx:id="partSearchField" layoutX="598.0" layoutY="25.0" onAction="#partSearch" prefHeight="25.0" prefWidth="162.0" promptText="Search by Part ID or Name" />
       <TableView fx:id="allPartTable" layoutX="374.0" layoutY="62.0" prefHeight="200.0" prefWidth="386.0">
          <columns>
             <TableColumn fx:id="partId" prefWidth="75.0" text="Part ID" />
             <TableColumn fx:id="partName" prefWidth="75.0" text="Part Name" />
-            <TableColumn fx:id="partStock"  prefWidth="115.111083984375" text="Inventory Level" />
+            <TableColumn fx:id="partStock" prefWidth="115.111083984375" text="Inventory Level" />
             <TableColumn fx:id="partCost" prefWidth="120.00005425347223" text="Price/ Cost per Unit" />
          </columns>
       </TableView>
@@ -30,7 +30,7 @@
       </TableView>
       <Button layoutX="667.0" layoutY="276.0" mnemonicParsing="false" onAction="#addPart" text="Add" />
       <Button layoutX="595.0" layoutY="521.0" mnemonicParsing="false" onAction="#removePart" text="Remove Associated Part" />
-      <Button layoutX="595.0" layoutY="575.0" mnemonicParsing="false" onAction="#saveModifyPart" text="Save" />
+      <Button layoutX="595.0" layoutY="575.0" mnemonicParsing="false" onAction="#saveModifyProduct" text="Save" />
       <Button layoutX="687.0" layoutY="575.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
       <Label layoutX="45.0" layoutY="103.0" text="ID" />
       <Label layoutX="35.0" layoutY="154.0" text="Name" />

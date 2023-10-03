@@ -1,10 +1,10 @@
-package com.example.c482; /**
+package com.jpollock.c482; /**
 * Supplied class Part.java 
  */
 
 /**
  *
- * @author Place Your Name Here
+ * @author Josh Pollock
  */
 public abstract class Part {
      int id;

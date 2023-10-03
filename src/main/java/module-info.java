@@ -3,6 +3,6 @@ module com.example.c482 {
     requires javafx.fxml;
 
 
-    opens com.example.c482 to javafx.fxml;
-    exports com.example.c482;
+    opens com.jpollock.c482 to javafx.fxml;
+    exports com.jpollock.c482;
 }

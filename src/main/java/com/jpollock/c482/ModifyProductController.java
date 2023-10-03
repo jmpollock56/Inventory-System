@@ -1,4 +1,4 @@
-package com.example.c482;
+package com.jpollock.c482;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,33 +14,75 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/** This class controls the Modify Product page and allows the users to change the information of the selected Product. */
 public class ModifyProductController implements Initializable {
-    public TextField partSearchField;
-    public TableView allPartTable;
-    public TableColumn partId;
-    public TableColumn partName;
-    public TableColumn partStock;
-    public TableColumn partCost;
-    public TableColumn assocPartId;
-    public TableColumn assocPartName;
-    public TableColumn assocPartCost;
-    public TableColumn assocPartStock;
-    public TableView assocPartTable;
-    public TextField productNameField;
-    public TextField productIdField;
-    public TextField productStockField;
-    public TextField productMinField;
-    public TextField productMaxField;
-    public TextField productCostField;
 
+    /** TextField for partSearchField. */
+    @FXML public TextField partSearchField;
+
+    /** TableView for allPartTable. */
+    @FXML public TableView allPartTable;
+
+    /** TableColumn for partId. */
+    @FXML public TableColumn partId;
+
+    /** TableColumn for partName. */
+    @FXML public TableColumn partName;
+
+    /** TableColumn for partStock. */
+    @FXML public TableColumn partStock;
+
+    /** TableColumn for partCost. */
+    @FXML public TableColumn partCost;
+
+    /** TableColumn for assocPartId. */
+    @FXML public TableColumn assocPartId;
+
+    /** TableColumn for assocPartName. */
+    @FXML public TableColumn assocPartName;
+
+    /** TableColumn for assocPartCost. */
+    @FXML public TableColumn assocPartCost;
+
+    /** TableColumn for assocPartStock. */
+    @FXML public TableColumn assocPartStock;
+
+    /** TableView for assocPartTable. */
+    @FXML public TableView assocPartTable;
+
+    /** TextField for productNameField. */
+    @FXML public TextField productNameField;
+
+    /** TextField for productIdField. */
+    @FXML public TextField productIdField;
+
+    /** TextField for productStockField. */
+    @FXML public TextField productStockField;
+
+    /** TextField for productMinField. */
+    @FXML public TextField productMinField;
+
+    /** TextField for productMaxField. */
+    @FXML public TextField productMaxField;
+
+    /** TextField for productCostField. */
+    @FXML public TextField productCostField;
+
+    /** integer to hold the index of the Product object that was selected. */
     int productIndex;
+
+    /** Product object created to be initialized by the information the user inputs. */
     Product product;
+
+    /** Integer used to hold the productId. */
     int productId;
 
+    /** This method is used to populate the associated Parts table.
+     * @param index Product Index
+     * @param selectedProduct Product Object that was selected.
+     */
     public void populateTables(int index, Product selectedProduct){
         productIndex = index;
         product = selectedProduct;
@@ -72,6 +114,10 @@ public class ModifyProductController implements Initializable {
 
     }
 
+    /** This method is used to load the Part information into the ALl Parts table.
+     * @param resourceBundle
+     * @param url
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Welcome to the 'Modify a Product Page!'");
@@ -86,6 +132,8 @@ public class ModifyProductController implements Initializable {
 
     }
 
+    /** This method is used to cancel the current operations and send the user back to the main page of the app.
+     * @param event button click. */
     @FXML
     public void cancelButton(ActionEvent event) throws IOException {
         Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
@@ -96,6 +144,10 @@ public class ModifyProductController implements Initializable {
         mainStage.show();
     }
 
+    /** This method is used to take the selected part from the all Parts table and add it to the Product's associated
+     * parts table.
+     * @param actionEvent button click
+     */
     public void addPart(ActionEvent actionEvent) {
         Part selectedPart = (Part) allPartTable.getSelectionModel().getSelectedItem();
 
@@ -109,8 +161,24 @@ public class ModifyProductController implements Initializable {
         assocPartCost.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 
+    /** This method is used to remove a part from the Products associated parts table.
+     * @param actionEvent button click
+     */
     public void removePart(ActionEvent actionEvent) {
         Part selectedPart = (Part) assocPartTable.getSelectionModel().getSelectedItem();
+
+        if (selectedPart == null){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Selection Error");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Please Select a Part You Would Like to Delete");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+        }
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Removal of Part");
@@ -132,12 +200,93 @@ public class ModifyProductController implements Initializable {
         }
     }
 
-    public void saveModifyPart(ActionEvent actionEvent) throws IOException {
+    /**
+     * This method takes in text and returns whether that text, when parsed, is an integer.
+     * @param text
+     */
+    public static boolean isInteger(String text){
+        try{
+            Integer.parseInt(text);
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
+    }
+
+    /**
+     * This method takes in text and returns whether that text, when parsed, is a double.
+     * @param text
+     */
+    public static boolean isDouble(String text){
+        try{
+            Double.parseDouble(text);
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
+    }
+
+    /** This method is used to save the current Product and send it to be updated in the Inventory.
+     * @param actionEvent button click
+     */
+    public void saveModifyProduct(ActionEvent actionEvent) throws IOException {
         if ((productNameField.getText().isEmpty() || productNameField.getText().isEmpty() || productCostField.getText().isEmpty() || productMaxField.getText().isEmpty() || productMinField.getText().isEmpty())){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Information Missing");
             alert.setHeaderText("Warning");
             alert.setContentText("Please Fill Out All of the Fields");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+        }
+
+        if (!isInteger(productStockField.getText())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input Error");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Inventory should be a number");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+        }
+
+        if (!isInteger(productMinField.getText())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input Error");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Minimum should be a number");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+        }
+
+        if (!isInteger(productMaxField.getText())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input Error");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Maximum should be a number");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+        }
+
+        if (!isDouble(productCostField.getText())){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Input Error");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Price/ Cost should be a number");
 
             alert.getButtonTypes().setAll(ButtonType.OK);
 
@@ -193,32 +342,21 @@ public class ModifyProductController implements Initializable {
         mainStage.show();
     }
 
+    /** This method is used to search for parts based on either name or ID. */
     public void partSearch(){
         String q = partSearchField.getText();
 
         ObservableList<Part> parts = Inventory.lookupPart(q);
 
         if (!parts.isEmpty()){
-            allPartTable.setItems(parts);
+            allPartTable .setItems(parts);
 
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Unable to find Part");
-            alert.setHeaderText("Error");
-            alert.setContentText("Unable to find Part based on the Search");
-
-            alert.getButtonTypes().setAll(ButtonType.OK);
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                return;
-            }
         }
 
         if (parts.isEmpty()) {
             try {
                 int partId = Integer.parseInt(q);
-                Part numPart = Inventory.lookupPart(partId);
+                Part numPart = (Part) Inventory.lookupPart(partId);
                 if (numPart != null) {
                     parts.add(numPart);
                     allPartTable.setItems(parts);
@@ -231,12 +369,16 @@ public class ModifyProductController implements Initializable {
                     alert.getButtonTypes().setAll(ButtonType.OK);
 
                     Optional<ButtonType> result = alert.showAndWait();
-                    if (result.get() == ButtonType.OK){
-                        return;
-                    }
                 }
             } catch (NumberFormatException e) {
-                //ignore
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Unable to find Part");
+                alert.setHeaderText("Error");
+                alert.setContentText("Unable to find Part based on the ID");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
             }
         }
     }

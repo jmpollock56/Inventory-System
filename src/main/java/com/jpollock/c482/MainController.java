@@ -1,4 +1,4 @@
-package com.example.c482;
+package com.jpollock.c482;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,38 +18,54 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/** This is the MainController class that is used to controller the Main page of the app.
+ *
+ * @author Josh Pollock
+ */
     public class MainController implements Initializable {
-        @FXML
-        public TableView partsTable;
-        @FXML
-        public TableColumn partIdCol;
-        @FXML
-        public TableColumn partNameCol;
-        @FXML
-        public TableColumn partInventoryCol;
-        @FXML
-        public TableColumn priceCostCol;
-        @FXML
-        public TableColumn productIdCol;
-        @FXML
-        public TableColumn productNameCol;
-        @FXML
-        public TableColumn productInventoryCol;
-        @FXML
-        public TableColumn productCostCol;
-        @FXML
-        public TableView productTable;
-        @FXML
-        public TextField partSearch;
-        @FXML
-        public TextField productSearch;
+        /** TableView for the Parts Table. */
+        @FXML public TableView partsTable;
 
-        @FXML
-        public Button closeButton;
+        /** TableColumn for the Part ID. */
+        @FXML public TableColumn partIdCol;
 
+        /** TableColumn for the Part Name. */
+        @FXML public TableColumn partNameCol;
+
+        /** TableColumn for the Part Stock. */
+        @FXML public TableColumn partInventoryCol;
+
+        /** TableColumn for the Part Price. */
+        @FXML public TableColumn priceCostCol;
+
+        /** TableColumn for the Product ID. */
+        @FXML public TableColumn productIdCol;
+
+        /** TableColumn for the Product Name. */
+        @FXML public TableColumn productNameCol;
+
+        /** TableColumn for the Product Stock. */
+        @FXML public TableColumn productInventoryCol;
+
+        /** TableColumn for the Product ICost. */
+        @FXML public TableColumn productCostCol;
+
+        /** TableView for the Products Table. */
+        @FXML public TableView productTable;
+
+        /** TextField for the Part search bar. */
+        @FXML public TextField partSearch;
+
+        /** TextField for the Product search bar. */
+        @FXML public TextField productSearch;
+
+        /** Button for the close action button. */
+        @FXML public Button closeButton;
+
+        /** Boolean to tell whether this is the first time the Main form has been opened. */
         private static boolean firstTime = true;
 
-
+        /** This populateTables() method is used to create Parts and Products to be used for the application */
         private void populateTables() {
             if(!firstTime){
                 return;
@@ -70,6 +86,10 @@ import java.util.ResourceBundle;
 
         }
 
+        /** This initialize method is used to populate the Parts and Product tables with data.
+         * @param url
+         * @param resourceBundle
+         */
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
             populateTables();
@@ -89,12 +109,18 @@ import java.util.ResourceBundle;
             priceCostCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         }
 
+        /** This method is used to close the application
+         * @param event button click
+         */
         @FXML
         public void handleCloseButtonAction(ActionEvent event) {
             Stage stage = (Stage) closeButton.getScene().getWindow();
             stage.close();
         }
 
+        /** This method is used to send the user to the add part form.
+         * @param event button click
+         * @throws IOException */
         @FXML
         public void moveToAddPart(ActionEvent event) throws IOException {
             Parent addPartForm = FXMLLoader.load(getClass().getResource("add-part.fxml"));
@@ -105,6 +131,11 @@ import java.util.ResourceBundle;
             addPartStage.show();
         }
 
+        /** This method is used to create a Part object based off what the user selected and then send the user to the
+         * Modify Part form
+         * @param event button click
+         * @throws IOException
+         */
         @FXML
         public void moveToModifyPart(ActionEvent event) throws IOException {
             Part selectedModifyPart = (Part) partsTable.getSelectionModel().getSelectedItem();
@@ -124,6 +155,7 @@ import java.util.ResourceBundle;
             }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modify-part.fxml"));
+
             Parent modifyPartForm = loader.load();
             ModifyPartController modifyPartController = loader.getController();
 
@@ -137,17 +169,25 @@ import java.util.ResourceBundle;
             modifyPartController.loadPartData(index, selectedModifyPart);
         }
 
+        /** This method is used to send the user to the Add Product form.
+         * @param event button click
+         * @throws IOException
+         */
         @FXML
         public void moveToAddProduct(ActionEvent event) throws IOException {
-            Parent modifyProductForm = FXMLLoader.load(getClass().getResource("add-product.fxml"));
-            Scene modifyProductScene = new Scene(modifyProductForm);
-            Stage modifyProductStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent addProductForm = FXMLLoader.load(getClass().getResource("add-product.fxml"));
+            Scene addProductScene = new Scene(addProductForm);
+            Stage addProductStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            modifyProductStage.setScene(modifyProductScene);
-            modifyProductStage.show();
-
+            addProductStage.setScene(addProductScene);
+            addProductStage.show();
         }
 
+        /** This method is used to create a Product object based off what the user selected and then send the user to
+         * the Modify Product form.
+         * @param event button click
+         * @throws IOException
+         */
         @FXML
         public void moveToModifyProduct(ActionEvent event) throws IOException {
             Product selectedProduct = (Product) productTable.getSelectionModel().getSelectedItem();
@@ -165,7 +205,7 @@ import java.util.ResourceBundle;
 
                 return;
             }
-             System.out.println(selectedProduct.getAssociatedParts());
+            System.out.println(selectedProduct.getAssociatedParts());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modify-product.fxml"));
             Parent modifyProductForm = loader.load();
             ModifyProductController modifyProductController = loader.getController();
@@ -180,9 +220,25 @@ import java.util.ResourceBundle;
 
         }
 
-        
+        /** This method is used to delete a Part that the user has selected.
+         * @param actionEvent  button click
+         */
+        @FXML
         public void deletePartBtn(ActionEvent actionEvent) {
             Part selectedPart = (Part) partsTable.getSelectionModel().getSelectedItem();
+
+            if (selectedPart == null){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Selection Error");
+                alert.setHeaderText("Warning");
+                alert.setContentText("Please Select a Part You Would Like to Delete");
+
+                alert.getButtonTypes().setAll(ButtonType.OK);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                return;
+            }
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm Deletion of Part");
@@ -205,31 +261,60 @@ import java.util.ResourceBundle;
 
         }
 
+    /** This method is used to delete a Product that the user has selected. It will not delete if the Product has
+     * associated parts.
+     * @param actionEvent  button click
+     */
+        @FXML
         public void deleteProductBtn(ActionEvent actionEvent) {
-
             Product selectedProduct = (Product) productTable.getSelectionModel().getSelectedItem();
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirm Deletion of Part");
-            alert.setHeaderText("Confirm");
-            alert.setContentText("Are you sure that you want to delete " + selectedProduct.getName() + "?");
+            if (selectedProduct == null){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Selection Error");
+                alert.setHeaderText("Warning");
+                alert.setContentText("Please Select a Product You Would Like to Delete");
 
-            alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
+                alert.getButtonTypes().setAll(ButtonType.OK);
 
-            Optional<ButtonType> result = alert.showAndWait();
+                Optional<ButtonType> result = alert.showAndWait();
 
-            if (result.isPresent() && result.get() == ButtonType.YES) {
-                Inventory.deleteProduct(selectedProduct);
+                return;
+            }
+
+            if (selectedProduct.getAssociatedParts().isEmpty()){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirm Deletion of Part");
+                alert.setHeaderText("Confirm");
+                alert.setContentText("Are you sure that you want to delete " + selectedProduct.getName() + "?");
+
+                alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if (result.isPresent() && result.get() == ButtonType.YES) {
+                    Inventory.deleteProduct(selectedProduct);
+                } else {
+                    Alert notDeleted = new Alert(Alert.AlertType.CONFIRMATION);
+                    notDeleted.setTitle("Confirmation");
+                    notDeleted.setContentText("Product was not deleted");
+                    notDeleted.getButtonTypes().setAll(ButtonType.OK);
+                    Optional<ButtonType> confirm = notDeleted.showAndWait();
+                }
             } else {
                 Alert notDeleted = new Alert(Alert.AlertType.CONFIRMATION);
-                notDeleted.setTitle("Confirmation");
-                notDeleted.setContentText("Product was not deleted");
+                notDeleted.setTitle("Error in Deleting Product");
+                notDeleted.setContentText("Product could not be deleted since it has associated Parts");
                 notDeleted.getButtonTypes().setAll(ButtonType.OK);
                 Optional<ButtonType> confirm = notDeleted.showAndWait();
             }
 
+
         }
 
+        /** This method is used to search through the allParts list based off of Part Name or ID.
+         * @param actionEvent button click
+         */
         @FXML
         public void showPartResults(ActionEvent actionEvent) {
             String q = partSearch.getText();
@@ -239,18 +324,6 @@ import java.util.ResourceBundle;
             if (!parts.isEmpty()){
                 partsTable.setItems(parts);
 
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Unable to find Part");
-                alert.setHeaderText("Error");
-                alert.setContentText("Unable to find Part based on the Search");
-
-                alert.getButtonTypes().setAll(ButtonType.OK);
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                    return;
-                }
             }
 
             if (parts.isEmpty()) {
@@ -264,22 +337,32 @@ import java.util.ResourceBundle;
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Unable to find Part");
                         alert.setHeaderText("Error");
-                        alert.setContentText("Unable to find Part based on the Search");
+                        alert.setContentText("Unable to find Part");
 
                         alert.getButtonTypes().setAll(ButtonType.OK);
 
                         Optional<ButtonType> result = alert.showAndWait();
-                        if (result.get() == ButtonType.OK){
-                            return;
-                        }
                     }
                 } catch (NumberFormatException e) {
-                    //ignore
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Unable to find Part");
+                    alert.setHeaderText("Error");
+                    alert.setContentText("Unable to find Part");
+
+                    alert.getButtonTypes().setAll(ButtonType.OK);
+
+                    Optional<ButtonType> result = alert.showAndWait();
                 }
             }
 
+
+
         }
 
+    /** This method is used to search through the allProducts list based off of Product Name or ID.
+     * @param actionEvent button click
+     */
+        @FXML
         public void showProductResults(ActionEvent actionEvent) {
             String p = productSearch.getText();
 
@@ -300,17 +383,21 @@ import java.util.ResourceBundle;
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Unable to find Product");
                         alert.setHeaderText("Error");
-                        alert.setContentText("Unable to find Product based on the ID");
+                        alert.setContentText("Unable to find Product");
 
                         alert.getButtonTypes().setAll(ButtonType.OK);
 
                         Optional<ButtonType> result = alert.showAndWait();
-                        if (result.get() == ButtonType.OK){
-                            return;
-                        }
                     }
                 } catch (NumberFormatException e) {
-                    //ignore
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Unable to find Product");
+                        alert.setHeaderText("Error");
+                        alert.setContentText("Unable to find Product");
+
+                        alert.getButtonTypes().setAll(ButtonType.OK);
+
+                        Optional<ButtonType> result = alert.showAndWait();
                 }
             }
 
