@@ -5,7 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/** This class creates an app that is an Inventory System. */
+/** This class creates an app that is an Inventory System.
+ * FUTURE_ENHANCEMENT: A feature that could enhance this current application is the ability to search through Parts and
+ * Products that have already been created but are currently not in the inventory system. This would allow users to easily
+ * go over and add them to the inventory without having to create new parts and products.
+ */
 public class InventoryApplication extends Application {
     /** This method sets the primary stage/page of the app and launches it. */
     @Override
