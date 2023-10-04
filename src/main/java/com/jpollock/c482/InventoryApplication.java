@@ -25,6 +25,8 @@ public class InventoryApplication extends Application {
 
     /** This is the main method of the program. It will be the first method that gets called when you run the program.
      * LOGICAL ERROR Location @ moveToModifyProduct method in MainController.java
+     *
+     * Javadoc location in folder c482 > src > Javadoc
      * */
     public static void main(String[] args) {
         launch();

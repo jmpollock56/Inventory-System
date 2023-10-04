@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 /** This class controls the Modify Product page and allows the users to change the information of the selected Product. */
 public class ModifyProductController implements Initializable {
 
+    /** Local ObservableList for a Product's associated parts. */
     private final ObservableList<Part> associatedPartsList = FXCollections.observableArrayList();
 
     /** TextField for partSearchField. */
