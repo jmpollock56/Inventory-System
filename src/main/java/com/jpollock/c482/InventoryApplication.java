@@ -15,7 +15,7 @@ public class InventoryApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(InventoryApplication.class.getResource("main-form.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 864, 384);
+        Scene scene = new Scene(fxmlLoader.load(),864, 384);
         primaryStage.setTitle("C482 IMS");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -25,8 +25,7 @@ public class InventoryApplication extends Application {
 
     /** This is the main method of the program. It will be the first method that gets called when you run the program.
      * LOGICAL ERROR Location @ moveToModifyProduct method in MainController.java
-     *
-     * Javadoc location in folder c482 > src > Javadoc
+     * Javadoc's location in folder c482 > Javadoc
      * */
     public static void main(String[] args) {
         launch();
