@@ -1,5 +1,6 @@
 package com.jpollock.c482;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,38 +20,40 @@ import java.util.ResourceBundle;
 /** This class controls the Modify Product page and allows the users to change the information of the selected Product. */
 public class ModifyProductController implements Initializable {
 
+    private final ObservableList<Part> associatedPartsList = FXCollections.observableArrayList();
+
     /** TextField for partSearchField. */
     @FXML public TextField partSearchField;
 
     /** TableView for allPartTable. */
-    @FXML public TableView allPartTable;
+    @FXML public TableView<Part> allPartTable;
 
     /** TableColumn for partId. */
-    @FXML public TableColumn partId;
+    @FXML public TableColumn<Part, Integer> partId;
 
     /** TableColumn for partName. */
-    @FXML public TableColumn partName;
+    @FXML public TableColumn<Part, String> partName;
 
     /** TableColumn for partStock. */
-    @FXML public TableColumn partStock;
+    @FXML public TableColumn<Part, Integer> partStock;
 
     /** TableColumn for partCost. */
-    @FXML public TableColumn partCost;
+    @FXML public TableColumn<Part, Double> partCost;
 
     /** TableColumn for assocPartId. */
-    @FXML public TableColumn assocPartId;
+    @FXML public TableColumn<Part, Integer> assocPartId;
 
     /** TableColumn for assocPartName. */
-    @FXML public TableColumn assocPartName;
+    @FXML public TableColumn<Part, String> assocPartName;
 
     /** TableColumn for assocPartCost. */
-    @FXML public TableColumn assocPartCost;
+    @FXML public TableColumn<Part, Double> assocPartCost;
 
     /** TableColumn for assocPartStock. */
-    @FXML public TableColumn assocPartStock;
+    @FXML public TableColumn<Part, Integer> assocPartStock;
 
     /** TableView for assocPartTable. */
-    @FXML public TableView assocPartTable;
+    @FXML public TableView<Part> assocPartTable;
 
     /** TextField for productNameField. */
     @FXML public TextField productNameField;
@@ -73,8 +76,7 @@ public class ModifyProductController implements Initializable {
     /** integer to hold the index of the Product object that was selected. */
     int productIndex;
 
-    /** Product object created to be initialized by the information the user inputs. */
-    Product product;
+    Product modProd;
 
     /** Integer used to hold the productId. */
     int productId;
@@ -82,17 +84,20 @@ public class ModifyProductController implements Initializable {
     /** This method is used to populate the associated Parts table.
      * @param index Product Index
      * @param selectedProduct Product Object that was selected.
+     *
      */
     public void populateTables(int index, Product selectedProduct){
         productIndex = index;
-        product = selectedProduct;
+        modProd = selectedProduct;
 
-        productId = product.getId();
-        String productName = product.getName();
-        double productCost = product.getPrice();
-        int productStock = product.getStock();
-        int productMin = product.getMin();
-        int productMax = product.getMax();
+        associatedPartsList.addAll(modProd.getAllAssociatedParts());
+
+        productId = modProd.getId();
+        String productName = modProd.getName();
+        double productCost = modProd.getPrice();
+        int productStock = modProd.getStock();
+        int productMin = modProd.getMin();
+        int productMax = modProd.getMax();
 
         productIdField.setText(Integer.toString(productId));
         productNameField.setText(productName);
@@ -101,20 +106,17 @@ public class ModifyProductController implements Initializable {
         productMaxField.setText(Integer.toString(productMax));
         productMinField.setText(Integer.toString(productMin));
 
-
-
-        System.out.println(product.getAssociatedParts());
-
-        assocPartTable.setItems(product.getAssociatedParts());
+        assocPartTable.setItems(associatedPartsList);
 
         assocPartId.setCellValueFactory(new PropertyValueFactory<>("id"));
         assocPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
         assocPartStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
         assocPartCost.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+
     }
 
-    /** This method is used to load the Part information into the ALl Parts table.
+    /** This method is used to load the Part information into the All Parts table.
      * @param resourceBundle
      * @param url
      */
@@ -128,7 +130,6 @@ public class ModifyProductController implements Initializable {
         partName.setCellValueFactory(new PropertyValueFactory<>("name"));
         partStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partCost.setCellValueFactory(new PropertyValueFactory<>("price"));
-
 
     }
 
@@ -149,11 +150,24 @@ public class ModifyProductController implements Initializable {
      * @param actionEvent button click
      */
     public void addPart(ActionEvent actionEvent) {
-        Part selectedPart = (Part) allPartTable.getSelectionModel().getSelectedItem();
+        Part selectedPart = allPartTable.getSelectionModel().getSelectedItem();
 
-        product.addAssociatedPart(selectedPart);
-        System.out.println(product.getAssociatedParts());
-        assocPartTable.setItems(product.getAssociatedParts());
+        if (selectedPart == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Selection Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Please select a Part.");
+
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+        }
+
+        associatedPartsList.add(selectedPart);
+
+        assocPartTable.setItems(associatedPartsList);
 
         assocPartId.setCellValueFactory(new PropertyValueFactory<>("id"));
         assocPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -190,7 +204,9 @@ public class ModifyProductController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.YES) {
-            product.deleteAssociatedPart(selectedPart);
+                associatedPartsList.remove(selectedPart);
+                assocPartTable.setItems(associatedPartsList);
+
         } else {
             Alert notDeleted = new Alert(Alert.AlertType.CONFIRMATION);
             notDeleted.setTitle("Confirmation");
@@ -330,9 +346,15 @@ public class ModifyProductController implements Initializable {
 
 
 
-        product = new Product(productId, newProdName, newProdCost, newProdStock, newProdMin, newProdMax);
+        Product modProduct = new Product(productId, newProdName, newProdCost, newProdStock, newProdMin, newProdMax);
 
-        Inventory.updateProduct(productIndex, product);
+        for (Part part: associatedPartsList){
+            modProduct.addAssociatedPart(part);
+        }
+
+        Inventory.updateProduct(productIndex, modProduct);
+
+
 
         Parent mainForm = FXMLLoader.load(getClass().getResource("main-form.fxml"));
         Scene mainScene = new Scene(mainForm);

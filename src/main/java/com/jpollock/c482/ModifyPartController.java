@@ -1,5 +1,7 @@
 package com.jpollock.c482;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +27,7 @@ public class ModifyPartController implements Initializable {
     @FXML public RadioButton modOutsourcedRadio;
 
     /** Part Object created to be initialized with the user selected Part. */
-    public Part modifablePart;
+    Part modifablePart;
 
     /** TextField for modPartName. */
     @FXML public TextField modPartName;

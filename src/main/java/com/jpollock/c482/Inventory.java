@@ -3,6 +3,8 @@ package com.jpollock.c482;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Locale;
+
 /** This class handles most of the methods that will be needed when interacting with the application. It also has
  * ObservableLists that will be used to store Parts and Products to be shown in a TableView. */
 public class Inventory {
@@ -59,7 +61,7 @@ public class Inventory {
         ObservableList<Part> namedParts = FXCollections.observableArrayList();
 
         for(Part searchPart: allParts){
-            if(searchPart.getName().toLowerCase().contains(partName)){
+            if(searchPart.getName().toLowerCase().contains(partName.toLowerCase())){
                 namedParts.add(searchPart);
             }
         }
@@ -76,7 +78,7 @@ public class Inventory {
         ObservableList<Product> namedProducts = FXCollections.observableArrayList();
 
         for(Product searchProduct: allProducts){
-            if(searchProduct.getName().toLowerCase().contains(productName)){
+            if(searchProduct.getName().toLowerCase().contains(productName.toLowerCase())){
                 namedProducts.add(searchProduct);
             }
         }

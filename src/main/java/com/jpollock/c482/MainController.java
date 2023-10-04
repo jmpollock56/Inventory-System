@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
  */
     public class MainController implements Initializable {
         /** TableView for the Parts Table. */
-        @FXML public TableView partsTable;
+        @FXML public TableView<Part> partsTable;
 
         /** TableColumn for the Part ID. */
         @FXML public TableColumn partIdCol;
@@ -51,7 +51,7 @@ import java.util.ResourceBundle;
         @FXML public TableColumn productCostCol;
 
         /** TableView for the Products Table. */
-        @FXML public TableView productTable;
+        @FXML public TableView<Product> productTable;
 
         /** TextField for the Part search bar. */
         @FXML public TextField partSearch;
@@ -138,7 +138,7 @@ import java.util.ResourceBundle;
          */
         @FXML
         public void moveToModifyPart(ActionEvent event) throws IOException {
-            Part selectedModifyPart = (Part) partsTable.getSelectionModel().getSelectedItem();
+            Part selectedModifyPart = partsTable.getSelectionModel().getSelectedItem();
             int index = partsTable.getSelectionModel().getSelectedIndex();
 
             if(selectedModifyPart == null){
@@ -187,11 +187,17 @@ import java.util.ResourceBundle;
          * the Modify Product form.
          * @param event button click
          * @throws IOException
+         *
+         * LOGICAL ERROR: In the beginning I was having an issue with getting the Associated Parts table to populate in
+         * my ModifyProductController class. The way that this issue was resolved was I needed to create a ModifyProductController
+         * object to set my loader.getController(); to it to associate it going across to another class.
          */
         @FXML
         public void moveToModifyProduct(ActionEvent event) throws IOException {
-            Product selectedProduct = (Product) productTable.getSelectionModel().getSelectedItem();
+            Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
             int productIndex = productTable.getSelectionModel().getSelectedIndex();
+
+            System.out.println(productIndex);
 
             if(selectedProduct == null){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -205,7 +211,8 @@ import java.util.ResourceBundle;
 
                 return;
             }
-            System.out.println(selectedProduct.getAssociatedParts());
+
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("modify-product.fxml"));
             Parent modifyProductForm = loader.load();
             ModifyProductController modifyProductController = loader.getController();
@@ -282,7 +289,7 @@ import java.util.ResourceBundle;
                 return;
             }
 
-            if (selectedProduct.getAssociatedParts().isEmpty()){
+            if (selectedProduct.getAllAssociatedParts().isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirm Deletion of Part");
                 alert.setHeaderText("Confirm");

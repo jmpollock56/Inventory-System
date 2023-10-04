@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 public class Product {
 
     /** ObservableList for the Product's associated Parts. */
-    private static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
     /** Used for the Product ID. */
     private int id;
@@ -127,7 +127,7 @@ public class Product {
     /**
      * @return associatedParts
      */
-    public ObservableList<Part> getAssociatedParts() {
+    public ObservableList<Part> getAllAssociatedParts() {
         return associatedParts;
     }
 

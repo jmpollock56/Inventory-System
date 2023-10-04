@@ -1,5 +1,6 @@
 package com.jpollock.c482;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,8 +22,10 @@ import java.util.ResourceBundle;
 /** This class is used to add a new Product the to system. */
 public class AddProductController implements Initializable {
 
+    private final ObservableList<Part> associatedPartsList = FXCollections.observableArrayList();
+
     /** TableView for the allPartTable */
-    @FXML private TableView allPartTable;
+    @FXML private TableView<Part> allPartTable;
 
     /** TableColumn for the allPartId */
     @FXML private TableColumn allPartId;
@@ -37,7 +40,7 @@ public class AddProductController implements Initializable {
     @FXML private TableColumn allPartCost;
 
     /** TableView for the associatedPartTable */
-    @FXML private TableView associatedPartTable;
+    @FXML private TableView<Part> associatedPartTable;
 
     /** TableColumn for the selectedPartId */
     @FXML public TableColumn selectedPartId;
@@ -84,7 +87,7 @@ public class AddProductController implements Initializable {
     int prodMax;
 
     /** New base Product object that will be updated with the information the user provides. */
-    Product currentProduct = new Product(0, "", 0.0, 0, 0, 0);
+   // Product currentProduct = new Product(0, "", 0.0, 0, 0, 0);
 
     /** This method initializes the add Product page with the parts in the allPartTable that will be used to add to
      * the product
@@ -117,11 +120,6 @@ public class AddProductController implements Initializable {
     }
     /**
      * On 'Save' button click the Product is saved to the allProducts ObservableList.
-     * RUNTIME ERROR: Caused by: java.lang.NullPointerException.
-     * This error would happen in this method whenever the 'Save' button was clicked.
-     * The way that the issue was resolved was I had to delcare the 'currentProduct'
-     * outside the method as well as giving it default values so that there were always
-     * some information to be sent to the addProducts method.
      * @param actionEvent button click
      */
     public void saveNewProduct(ActionEvent actionEvent) throws IOException {
@@ -226,9 +224,11 @@ public class AddProductController implements Initializable {
             return;
         }
 
+        Product currentProduct = new Product(randomProdId, prodName, prodCost, prodStock, prodMin, prodMax);
 
-
-        currentProduct = new Product(randomProdId, prodName, prodCost, prodStock, prodMin, prodMax);
+        for (Part part: associatedPartsList){
+            currentProduct.addAssociatedPart(part);
+        }
 
         Inventory.addProduct(currentProduct);
 
@@ -248,10 +248,22 @@ public class AddProductController implements Initializable {
 
         Part selectedPart = (Part) allPartTable.getSelectionModel().getSelectedItem();
 
-        currentProduct.addAssociatedPart(selectedPart);
-        System.out.println(currentProduct.getAssociatedParts());
-        associatedPartTable.setItems(currentProduct.getAssociatedParts());
+        if (selectedPart == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Selection Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Please select a Part.");
 
+            alert.getButtonTypes().setAll(ButtonType.OK);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            return;
+        }
+
+        associatedPartsList.add(selectedPart);
+        associatedPartTable.setItems(associatedPartsList);
+        System.out.println(associatedPartsList);
         selectedPartId.setCellValueFactory(new PropertyValueFactory<>("id"));
         selectedPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
         selectedPartInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
@@ -260,12 +272,14 @@ public class AddProductController implements Initializable {
 
     }
 
-    /** This method is used to remove an associated Part from the associated Parts tables so it is not associated with
+    /** This method is used to remove an associated Part from the associated Parts tables, so it is not associated with
      * the Product being created.
      * @param actionEvent button click*/
     public void removeAssocPart(ActionEvent actionEvent) {
+        //Declare the selected part to be removed.
         Part selectedPart = (Part) associatedPartTable.getSelectionModel().getSelectedItem();
 
+        //Check if the user has selected a part to be removed. If not, alert them.
         if (selectedPart == null){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Selection Error");
@@ -279,6 +293,7 @@ public class AddProductController implements Initializable {
             return;
         }
 
+        //Confirm with the user that they want to the part to be deleted.
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Removal of Part");
         alert.setHeaderText("Confirm");
@@ -288,8 +303,9 @@ public class AddProductController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
 
+
         if (result.isPresent() && result.get() == ButtonType.YES) {
-            currentProduct.deleteAssociatedPart(selectedPart);
+            associatedPartsList.remove(selectedPart);
         } else {
             Alert notDeleted = new Alert(Alert.AlertType.CONFIRMATION);
             notDeleted.setTitle("Confirmation");
